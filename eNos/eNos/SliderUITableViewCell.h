@@ -14,5 +14,6 @@
 }
 
 @property (nonatomic, retain) UISlider *widgetSlider;
+@property (nonatomic, retain) UISwitch *widget_switch;
 
 @end
