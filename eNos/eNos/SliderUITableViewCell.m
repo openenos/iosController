@@ -35,7 +35,31 @@
         forControlEvents:(UIControlEventTouchUpInside | UIControlEventTouchUpOutside | UIControlEventValueChanged)];
     int intValue_ = self.widgetSlider.value * 100;
     self.statevalue.text=[NSString stringWithFormat:@"%d%%",intValue_];
+    
+    if (widgetValue > 0) {
+        
+        [self.widget_switch setOn:YES];
+    }else
+    {
+        [self.widget_switch setOn:NO];
+    }
+    
+    [self.widget_switch addTarget:self action:@selector(switch_changed:) forControlEvents:UIControlEventValueChanged];
+    
 }
+
+-(void)switch_changed:(UISwitch *)_switch
+{
+    if (_switch.isOn) {
+        self.widgetSlider.value = 100.0f;
+    }else
+    {
+        self.widgetSlider.value = 0.0f;
+    }
+    
+    [self sliderDidEndSliding:nil];
+}
+
 - (void)sliderDidEndSliding:(NSNotification *)notification {
 //    NSLog(@"Slider new value = %f", self.widgetSlider.value);
     int intValue = self.widgetSlider.value * 100;
