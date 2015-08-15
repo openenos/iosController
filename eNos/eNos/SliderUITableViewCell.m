@@ -29,13 +29,15 @@
     [self.widgetSlider setValue:widgetValue/100];
     [self.widgetSlider addTarget:self
                   action:@selector(sliderDidEndSliding:)
-        forControlEvents:(UIControlEventTouchUpInside | UIControlEventTouchUpOutside)];
+        forControlEvents:(UIControlEventTouchUpInside | UIControlEventTouchUpOutside | UIControlEventValueChanged)];
+    int intValue_ = self.widgetSlider.value * 100;
+    self.statevalue.text=[NSString stringWithFormat:@"%d%%",intValue_];
 }
-
 - (void)sliderDidEndSliding:(NSNotification *)notification {
     NSLog(@"Slider new value = %f", self.widgetSlider.value);
     int intValue = self.widgetSlider.value * 100;
-//    [self.widget sendCommand:[NSString stringWithFormat:@"%d", intValue]];
+    self.statevalue.text=[NSString stringWithFormat:@"%d%%",intValue];
+    [self.widget sendCommand:[NSString stringWithFormat:@"%d", intValue]];
 }
 
 @end

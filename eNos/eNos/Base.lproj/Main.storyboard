@@ -183,7 +183,7 @@
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rvf-jE-gd2">
+                                        <switch opaque="NO" tag="200" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rvf-jE-gd2">
                                             <rect key="frame" x="193" y="215" width="51" height="31"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="49" id="CEb-5K-RRH"/>
@@ -197,6 +197,16 @@
                                                 <constraint firstAttribute="width" constant="100" id="c53-dz-a7f"/>
                                             </constraints>
                                         </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" tag="102" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="voT-6B-LuI">
+                                            <rect key="frame" x="193" y="143" width="49" height="27"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="49" id="P06-5T-pap"/>
+                                                <constraint firstAttribute="height" constant="27" id="xGU-OD-tMs"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
@@ -213,6 +223,8 @@
                                     <constraint firstItem="pvT-qA-lle" firstAttribute="top" secondItem="AEu-ZJ-O1j" secondAttribute="bottom" constant="155" id="bXN-MJ-R24"/>
                                     <constraint firstAttribute="trailing" secondItem="pvT-qA-lle" secondAttribute="trailing" constant="8" id="fIM-lF-iaM"/>
                                     <constraint firstAttribute="centerX" secondItem="Dtf-Ta-AjA" secondAttribute="centerX" id="hRV-f9-kD6"/>
+                                    <constraint firstAttribute="trailing" secondItem="voT-6B-LuI" secondAttribute="trailing" constant="8" id="kIo-u6-e64"/>
+                                    <constraint firstItem="pvT-qA-lle" firstAttribute="top" secondItem="voT-6B-LuI" secondAttribute="bottom" constant="14" id="ldU-2S-VVf"/>
                                 </constraints>
                             </collectionViewCell>
                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ColorPickerWidgetCell" id="KzX-dy-MSI">

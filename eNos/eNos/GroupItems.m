@@ -47,4 +47,14 @@
         }
     }
 }
+
+- (void) sendCommand:(NSString *)command
+{
+    if (self.delegate != nil && self != nil)
+        [self.delegate sendCommand:self commandToSend:command];
+    if (self == nil)
+        NSLog(@"Item = nil");
+    if (self.delegate == nil)
+        NSLog(@"Delegate = nil");
+}
 @end
