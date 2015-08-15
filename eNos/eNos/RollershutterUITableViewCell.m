@@ -37,19 +37,19 @@
 -(void)upButtonPressed
 {
     NSLog(@"up button pressed");
-    [self.widget sendCommand:@"UP"];
+//    [self.widget sendCommand:@"UP"];
 }
 
 -(void)stopButtonPressed
 {
     NSLog(@"stop button pressed");
-    [self.widget sendCommand:@"STOP"];
+//    [self.widget sendCommand:@"STOP"];
 }
 
 -(void)downButtonPressed
 {
     NSLog(@"down button pressed");
-    [self.widget sendCommand:@"DOWN"];
+//    [self.widget sendCommand:@"DOWN"];
 }
 
 @end

@@ -18,7 +18,7 @@
 
 - (void)displayWidget
 {
-    NSLog(@"Video url = %@", widget.url);
+//    NSLog(@"Video url = %@", widget.url);
 //    videoPlayer = [[MPMoviePlayerController alloc] initWithContentURL:[NSURL URLWithString:widget.url]];
 //    videoPlayer.view.frame = self.contentView.bounds;
 //    [self.contentView addSubview:videoPlayer.view];

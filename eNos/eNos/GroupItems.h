@@ -10,11 +10,14 @@
 #import <UIKit/UIKit.h>
 @class GDataXMLElement;
 @interface GroupItems : NSObject
-@property NSString *itemtype;
-@property NSString *state;
-@property NSString *title;
-@property NSString *label;
+@property NSString *type;
+@property(nonatomic,strong) NSString *state;
+@property NSString *labelText;
+@property NSString *labelValue;
+@property NSString *pattern;
 - (float) stateAsFloat;
 - (int) stateAsInt;
 - (UIColor*) stateAsUIColor;
+- (NSString *) labelText;
+- (NSString *) labelValue;
 @end

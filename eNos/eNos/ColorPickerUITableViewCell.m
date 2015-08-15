@@ -34,12 +34,12 @@
 - (void)displayWidget
 {
     self.textLabel.text = [self.widget labelText];
-    colorButton.backgroundColor = [self.widget.item stateAsUIColor];
+    colorButton.backgroundColor = [self.widget stateAsUIColor];
 }
 
 -(void)upButtonPressed
 {
-    [self.widget sendCommand:@"ON"];
+//    [self.widget sendCommand:@"ON"];
 }
 
 -(void)colorButtonPressed
@@ -50,7 +50,7 @@
 
 -(void)downButtonPressed
 {
-    [self.widget sendCommand:@"OFF"];
+//    [self.widget sendCommand:@"OFF"];
 }
 
 @end

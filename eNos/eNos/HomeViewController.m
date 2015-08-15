@@ -9,6 +9,17 @@
 #import "HomeViewController.h"
 #import "eNosAPI.h"
 #import "GroupItems.h"
+#import "GenericUITableViewCell.h"
+#import "SliderUITableViewCell.h"
+#import "SwitchUITableViewCell.h"
+#import "ColorPickerUITableViewCell.h"
+#import "SegmentedUITableViewCell.h"
+#import "RollershutterUITableViewCell.h"
+#import "ChartUITableViewCell.h"
+#import "ImageUITableViewCell.h"
+#import "VideoUITableViewCell.h"
+#import "WebUITableViewCell.h"
+#import "HexColor.h"
 @interface HomeViewController ()
 {
     NSMutableArray *items_list;
@@ -21,6 +32,8 @@ static NSString * const reuseIdentifier = @"Cell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.collectionView.backgroundColor = [UIColor colorWithHexString:@"#f4f4f4"];
     
     items_list = [NSMutableArray new];
     
@@ -44,10 +57,16 @@ static NSString * const reuseIdentifier = @"Cell";
                 
                 NSDictionary *memberdict = [memebers objectAtIndex:0];
                 
-                [groupitem setItemtype:[memberdict objectForKey:@"type"]];
-                [groupitem setLabel:[memberdict objectForKey:@"label"]];
+                [groupitem setType:[memberdict objectForKey:@"type"]];
+                [groupitem setLabelValue:[memberdict objectForKey:@"label"]];
                 [groupitem setState:[memberdict objectForKey:@"state"]];
-                [groupitem setTitle:[memeber objectForKey:@"label"]];
+                [groupitem setLabelText:[memeber objectForKey:@"label"]];
+                
+                if ([memberdict objectForKey:@"stateDescription"] != (id)[NSNull null]) {
+                    
+                    [groupitem setPattern:[[memberdict objectForKey:@"stateDescription"] objectForKey:@"pattern"]];
+                }
+                
                 
                 [items_list addObject:groupitem];
             }
@@ -93,11 +112,85 @@ static NSString * const reuseIdentifier = @"Cell";
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
     
-    // Configure the cell
+    
+    GroupItems *widget = [items_list objectAtIndex:indexPath.row];
+    
+    NSString *cellIdentifier = @"GenericWidgetCell";
+    
+    if ([widget.type isEqualToString:@"SwitchItem"]) {
+//        if ([widget.mappings count] > 0) {
+//            cellIdentifier = @"SegmentedWidgetCell";
+//        } else if ([widget.item.type isEqualToString:@"RollershutterItem"]) {
+//            cellIdentifier = @"RollershutterWidgetCell";
+//        } else {
+            cellIdentifier = @"SwitchWidgetCell";
+//        }
+    } else if ([widget.type isEqualToString:@"Setpoint"]) {
+        cellIdentifier = @"SetpointWidgetCell";
+    } else if ([widget.type isEqualToString:@"DimmerItem"]) {
+        cellIdentifier = @"SliderWidgetCell";
+    } else if ([widget.type isEqualToString:@"Selection"]) {
+        cellIdentifier = @"SelectionWidgetCell";
+    } else if ([widget.type isEqualToString:@"Colorpicker"]) {
+        cellIdentifier = @"ColorPickerWidgetCell";
+    } else if ([widget.type isEqualToString:@"Chart"]) {
+        cellIdentifier = @"ChartWidgetCell";
+    } else if ([widget.type isEqualToString:@"Image"]) {
+        cellIdentifier = @"ImageWidgetCell";
+    } else if ([widget.type isEqualToString:@"Video"]) {
+        cellIdentifier = @"VideoWidgetCell";
+    } else if ([widget.type isEqualToString:@"Webview"]) {
+        cellIdentifier = @"WebWidgetCell";
+    }
+    
+    GenericUITableViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
+//    // No icon is needed for image, video, frame and web widgets
+//    if (widget.icon != nil && !([cellIdentifier isEqualToString:@"ChartWidgetCell"] || [cellIdentifier isEqualToString:@"ImageWidgetCell"] || [cellIdentifier isEqualToString:@"VideoWidgetCell"] || [cellIdentifier isEqualToString:@"FrameWidgetCell"] || [cellIdentifier isEqualToString:@"WebWidgetCell"])) {
+//        NSString *iconUrlString = [NSString stringWithFormat:@"%@/images/%@.png", self.openHABRootUrl, widget.icon];
+//        [cell.imageView sd_setImageWithURL:[NSURL URLWithString:iconUrlString] placeholderImage:[UIImage imageNamed:@"blankicon.png"] options:0];
+//    }
+//    if ([cellIdentifier isEqualToString:@"ColorPickerWidgetCell"]) {
+//        ((ColorPickerUITableViewCell*)cell).delegate = self;
+//    }
+//    if ([cellIdentifier isEqualToString:@"ChartWidgetCell"]) {
+//        NSLog(@"Setting cell base url to %@", self.openHABRootUrl);
+//        ((ChartUITableViewCell*)cell).baseUrl = self.openHABRootUrl;
+//    }
+//    if ([cellIdentifier isEqualToString:@"ChartWidgetCell"] || [cellIdentifier isEqualToString:@"ImageWidgetCell"]) {
+//        [(ImageUITableViewCell *)cell setDelegate:self];
+//    }
+    [cell loadWidget:widget];
+    [cell displayWidget];
+    // Check if this is not the last row in the widgets list
+//    if (indexPath.row < [currentPage.widgets count] - 1) {
+//        OpenHABWidget *nextWidget = [currentPage.widgets objectAtIndex:indexPath.row + 1];
+//        if ([nextWidget.type isEqual:@"Frame"] || [nextWidget.type isEqual:@"Image"] || [nextWidget.type isEqual:@"Video"] || [nextWidget.type isEqual:@"Webview"] || [nextWidget.type isEqual:@"Chart"]) {
+//            cell.separatorInset = UIEdgeInsetsZero;
+//        } else if (![widget.type isEqualToString:@"Frame"]) {
+//            cell.separatorInset = UIEdgeInsetsMake(0, 60, 0, 0);
+//        }
+//    }
+
+    
+    cell.backgroundColor = [UIColor whiteColor];
+    cell.layer.cornerRadius = 4.0f;
+//    cell.layer.borderColor = [UIColor grayColor].CGColor;
+//    cell.layer.borderWidth = 1.0f;
     
     return cell;
+}
+
+- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
+    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        return UIEdgeInsetsMake(20, 20, 20, 20);
+    }else
+    {
+        return UIEdgeInsetsMake(20, 0, 20, 0);
+    }
+    
+    
 }
 
 #pragma mark <UICollectionViewDelegate>

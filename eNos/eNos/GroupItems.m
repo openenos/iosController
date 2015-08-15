@@ -20,6 +20,16 @@
     return (int)[self.state integerValue];
 }
 
+-(void)setState:(NSString *)state
+{
+    if (state != (id)[NSNull null] && ![state isEqualToString:@"NULL"]) {
+        _state = state;
+    }else
+    {
+        _state = @"--";
+    }
+}
+
 - (UIColor*) stateAsUIColor
 {
     if ([self.state isEqualToString:@"Uninitialized"]) {

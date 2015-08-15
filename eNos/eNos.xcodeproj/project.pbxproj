@@ -16,14 +16,12 @@
 		0EAB2A1C1B7F31D7002E269D /* Reachability+URL.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAB2A151B7F31D7002E269D /* Reachability+URL.m */; };
 		0EAB2A211B7F31F8002E269D /* UIAlertView+Block.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAB2A1E1B7F31F8002E269D /* UIAlertView+Block.m */; };
 		0EAB2A221B7F31F8002E269D /* UICircleButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAB2A201B7F31F8002E269D /* UICircleButton.m */; };
-		0EAB2A401B7F3234002E269D /* FrameUITableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAB2A251B7F3234002E269D /* FrameUITableViewCell.m */; };
 		0EAB2A411B7F3234002E269D /* GenericUITableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAB2A271B7F3234002E269D /* GenericUITableViewCell.m */; };
 		0EAB2A421B7F3234002E269D /* SwitchUITableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAB2A291B7F3234002E269D /* SwitchUITableViewCell.m */; };
 		0EAB2A431B7F3234002E269D /* SetpointUITableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAB2A2B1B7F3234002E269D /* SetpointUITableViewCell.m */; };
 		0EAB2A441B7F3234002E269D /* SliderUITableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAB2A2D1B7F3234002E269D /* SliderUITableViewCell.m */; };
 		0EAB2A451B7F3234002E269D /* SegmentedUITableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAB2A2F1B7F3234002E269D /* SegmentedUITableViewCell.m */; };
 		0EAB2A461B7F3234002E269D /* RollershutterUITableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAB2A311B7F3234002E269D /* RollershutterUITableViewCell.m */; };
-		0EAB2A471B7F3234002E269D /* SelectionUITableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAB2A331B7F3234002E269D /* SelectionUITableViewCell.m */; };
 		0EAB2A481B7F3234002E269D /* ColorPickerUITableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAB2A351B7F3234002E269D /* ColorPickerUITableViewCell.m */; };
 		0EAB2A491B7F3234002E269D /* ColorPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAB2A371B7F3234002E269D /* ColorPickerViewController.m */; };
 		0EAB2A4A1B7F3234002E269D /* ChartUITableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAB2A391B7F3234002E269D /* ChartUITableViewCell.m */; };
@@ -81,8 +79,6 @@
 		0EAB2A1E1B7F31F8002E269D /* UIAlertView+Block.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAlertView+Block.m"; sourceTree = "<group>"; };
 		0EAB2A1F1B7F31F8002E269D /* UICircleButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UICircleButton.h; sourceTree = "<group>"; };
 		0EAB2A201B7F31F8002E269D /* UICircleButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UICircleButton.m; sourceTree = "<group>"; };
-		0EAB2A241B7F3234002E269D /* FrameUITableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FrameUITableViewCell.h; sourceTree = "<group>"; };
-		0EAB2A251B7F3234002E269D /* FrameUITableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FrameUITableViewCell.m; sourceTree = "<group>"; };
 		0EAB2A261B7F3234002E269D /* GenericUITableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GenericUITableViewCell.h; sourceTree = "<group>"; };
 		0EAB2A271B7F3234002E269D /* GenericUITableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GenericUITableViewCell.m; sourceTree = "<group>"; };
 		0EAB2A281B7F3234002E269D /* SwitchUITableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwitchUITableViewCell.h; sourceTree = "<group>"; };
@@ -95,8 +91,6 @@
 		0EAB2A2F1B7F3234002E269D /* SegmentedUITableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SegmentedUITableViewCell.m; sourceTree = "<group>"; };
 		0EAB2A301B7F3234002E269D /* RollershutterUITableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RollershutterUITableViewCell.h; sourceTree = "<group>"; };
 		0EAB2A311B7F3234002E269D /* RollershutterUITableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RollershutterUITableViewCell.m; sourceTree = "<group>"; };
-		0EAB2A321B7F3234002E269D /* SelectionUITableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectionUITableViewCell.h; sourceTree = "<group>"; };
-		0EAB2A331B7F3234002E269D /* SelectionUITableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectionUITableViewCell.m; sourceTree = "<group>"; };
 		0EAB2A341B7F3234002E269D /* ColorPickerUITableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorPickerUITableViewCell.h; sourceTree = "<group>"; };
 		0EAB2A351B7F3234002E269D /* ColorPickerUITableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ColorPickerUITableViewCell.m; sourceTree = "<group>"; };
 		0EAB2A361B7F3234002E269D /* ColorPickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorPickerViewController.h; sourceTree = "<group>"; };
@@ -197,8 +191,6 @@
 		0EAB2A231B7F3225002E269D /* Widgets */ = {
 			isa = PBXGroup;
 			children = (
-				0EAB2A241B7F3234002E269D /* FrameUITableViewCell.h */,
-				0EAB2A251B7F3234002E269D /* FrameUITableViewCell.m */,
 				0EAB2A261B7F3234002E269D /* GenericUITableViewCell.h */,
 				0EAB2A271B7F3234002E269D /* GenericUITableViewCell.m */,
 				0EAB2A281B7F3234002E269D /* SwitchUITableViewCell.h */,
@@ -211,8 +203,6 @@
 				0EAB2A2F1B7F3234002E269D /* SegmentedUITableViewCell.m */,
 				0EAB2A301B7F3234002E269D /* RollershutterUITableViewCell.h */,
 				0EAB2A311B7F3234002E269D /* RollershutterUITableViewCell.m */,
-				0EAB2A321B7F3234002E269D /* SelectionUITableViewCell.h */,
-				0EAB2A331B7F3234002E269D /* SelectionUITableViewCell.m */,
 				0EAB2A341B7F3234002E269D /* ColorPickerUITableViewCell.h */,
 				0EAB2A351B7F3234002E269D /* ColorPickerUITableViewCell.m */,
 				0EAB2A361B7F3234002E269D /* ColorPickerViewController.h */,
@@ -482,7 +472,6 @@
 				0EAB2A5E1B7F3267002E269D /* OpenHABLinkedPage.m in Sources */,
 				0ED819FB1B7F0EBB00385178 /* ViewController.m in Sources */,
 				0ED819F81B7F0EBB00385178 /* AppDelegate.m in Sources */,
-				0EAB2A471B7F3234002E269D /* SelectionUITableViewCell.m in Sources */,
 				0EAB2A171B7F31D7002E269D /* NSData+HexString.m in Sources */,
 				0EAB2A1A1B7F31D7002E269D /* OpenHABTracker.m in Sources */,
 				0EAB2A481B7F3234002E269D /* ColorPickerUITableViewCell.m in Sources */,
@@ -508,7 +497,6 @@
 				0EAB2A461B7F3234002E269D /* RollershutterUITableViewCell.m in Sources */,
 				0EAB2A601B7F3267002E269D /* OpenHABSitemapPage.m in Sources */,
 				0EAB2A621B7F3267002E269D /* OpenHABDataObject.m in Sources */,
-				0EAB2A401B7F3234002E269D /* FrameUITableViewCell.m in Sources */,
 				0EAB2A191B7F31D7002E269D /* NSObject+Data.m in Sources */,
 				0EAB2A221B7F31F8002E269D /* UICircleButton.m in Sources */,
 			);
