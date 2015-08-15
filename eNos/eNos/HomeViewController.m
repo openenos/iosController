@@ -26,6 +26,7 @@
     AFHTTPRequestOperation *currentPageOperation;
     AFHTTPRequestOperation *commandOperation;
 }
+@property (strong, nonatomic) dispatch_source_t timer;
 @end
 
 @implementation HomeViewController
@@ -37,18 +38,34 @@ static NSString * const reuseIdentifier = @"Cell";
     
     self.collectionView.backgroundColor = [UIColor colorWithHexString:@"#f4f4f4"];
     
-    items_list = [NSMutableArray new];
+   
     
     // Uncomment the following line to preserve selection between presentations
     // self.clearsSelectionOnViewWillAppear = NO;
     
     // Register cell classes
     
-    [self loadDefaultdata];
+//    [self loadDefaultdata];
+    
+    [self startTimer];
 
     [self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:reuseIdentifier];
     
     // Do any additional setup after loading the view.
+}
+
+- (void)startTimer
+{
+    if (!self.timer) {
+        self.timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, dispatch_get_main_queue());
+    }
+    if (self.timer) {
+        dispatch_source_set_timer(self.timer, dispatch_walltime(NULL, 0), 1ull*NSEC_PER_SEC, 10ull*NSEC_PER_SEC);
+        dispatch_source_set_event_handler(_timer, ^(void) {
+            [self loadDefaultdata];
+        });
+        dispatch_resume(_timer);
+    }
 }
 
 -(void)loadDefaultdata
@@ -57,34 +74,44 @@ static NSString * const reuseIdentifier = @"Cell";
         
         if (!error) {
             
-            NSArray *memebers = [responseObject objectForKey:@"members"];
-            
-            for (NSDictionary *memeber in memebers) {
+            @autoreleasepool {
                 
-                NSArray *memebers = [memeber objectForKey:@"members"];
+                items_list = [NSMutableArray new];
                 
-                GroupItems *groupitem = [[GroupItems alloc] init];
+                NSArray *memebers = [responseObject objectForKey:@"members"];
                 
-                NSDictionary *memberdict = [memebers objectAtIndex:0];
-                
-                [groupitem setType:[memberdict objectForKey:@"type"]];
-                [groupitem setLabelValue:[memberdict objectForKey:@"label"]];
-                [groupitem setState:[memberdict objectForKey:@"state"]];
-                [groupitem setLabelText:[memeber objectForKey:@"label"]];
-                [groupitem setLink:[memeber objectForKey:@"link"]];
-                
-                if ([memberdict objectForKey:@"stateDescription"] != (id)[NSNull null]) {
+                for (NSDictionary *memeber in memebers) {
                     
-                    [groupitem setPattern:[[memberdict objectForKey:@"stateDescription"] objectForKey:@"pattern"]];
+                    NSArray *memebers = [memeber objectForKey:@"members"];
+                    
+                    GroupItems *groupitem = [[GroupItems alloc] init];
+                    
+                    NSDictionary *memberdict = [memebers objectAtIndex:0];
+                    
+                    [groupitem setType:[memberdict objectForKey:@"type"]];
+                    [groupitem setLabelValue:[memberdict objectForKey:@"label"]];
+                    [groupitem setState:[memberdict objectForKey:@"state"]];
+                    [groupitem setLabelText:[memeber objectForKey:@"label"]];
+                    [groupitem setLink:[memeber objectForKey:@"link"]];
+                    
+                    if ([memberdict objectForKey:@"stateDescription"] != (id)[NSNull null]) {
+                        
+                        [groupitem setPattern:[[memberdict objectForKey:@"stateDescription"] objectForKey:@"pattern"]];
+                    }
+                    
+                    [groupitem setDelegate:self];
+                    [items_list addObject:groupitem];
                 }
-                
-                [groupitem setDelegate:self];
-                [items_list addObject:groupitem];
             }
             
-            NSLog(@"%d",items_list.count);
+//            NSLog(@"%d",items_list.count);
+         //
             [self.collectionView reloadData];
+           // [NSTimer timerWithTimeInterval:6.0 target:self selector:@selector(loadDefaultdata) userInfo:nil repeats:YES];
+            //[NSTimer scheduledTimerWithTimeInterval:2.0 target:self selector:@selector(loadDefaultdata) userInfo:nil repeats:YES];
+        
             
+
         }else
         {
             NSLog(@"%@",error);
@@ -205,43 +232,7 @@ static NSString * const reuseIdentifier = @"Cell";
     [TSMessage showNotificationInViewController:self.navigationController title:@"Error" subtitle:[error localizedDescription] image:nil type:TSMessageNotificationTypeError duration:60.0 callback:nil buttonTitle:nil buttonCallback:nil atPosition:TSMessageNotificationPositionBottom canBeDismissedByUser:YES];
 }
 
-//- (void)openHABTracked:(NSString *)openHABUrl
-//{
-//    NSLog(@"OpenHABViewController openHAB URL = %@", openHABUrl);
-//    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-//    self.openHABRootUrl = openHABUrl;
-//   // [[self appData] setOpenHABRootUrl:openHABRootUrl];
-//    // Checking openHAB version
-//    NSURL *pageToLoadUrl = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"%@/rest/bindings", self.openHABRootUrl]];
-//    NSMutableURLRequest *pageRequest = [NSMutableURLRequest requestWithURL:pageToLoadUrl];
-//    [pageRequest setAuthCredentials:self.openHABUsername :self.openHABPassword];
-//    [pageRequest setTimeoutInterval:10.0];
-//    AFHTTPRequestOperation *versionPageOperation = [[AFHTTPRequestOperation alloc] initWithRequest:pageRequest];
-//    AFRememberingSecurityPolicy *policy = [AFRememberingSecurityPolicy policyWithPinningMode:AFSSLPinningModeNone];
-//    [policy setDelegate:self];
-//    currentPageOperation.securityPolicy = policy;
-//    if (self.ignoreSSLCertificate) {
-//        NSLog(@"Warning - ignoring invalid certificates");
-//        currentPageOperation.securityPolicy.allowInvalidCertificates = YES;
-//    }
-//    [versionPageOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-//        NSLog(@"This is an openHAB 2.X");
-//        [[self appData] setOpenHABVersion:2];
-//        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-//        NSData *response = (NSData*)responseObject;
-//        NSError *error;
-//        [self selectSitemap];
-//    } failure:^(AFHTTPRequestOperation *operation, NSError *error){
-//        NSLog(@"This is an openHAB 1.X");
-//        [[self appData] setOpenHABVersion:1];
-//        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-//        NSLog(@"Error:------>%@", [error description]);
-//        NSLog(@"error code %ld",(long)[operation.response statusCode]);
-//        [self selectSitemap];
-//    }];
-//    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-//    [versionPageOperation start];
-//}
+
 
 // /send command to an item
 
