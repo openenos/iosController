@@ -40,6 +40,7 @@
 		0EAB2A651B7F3282002E269D /* ping.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0EAB2A641B7F3282002E269D /* ping.wav */; };
 		0EAB2A6B1B7F375B002E269D /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAB2A6A1B7F375B002E269D /* HomeViewController.m */; };
 		0EAB2A741B7F41CF002E269D /* eNosAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAB2A731B7F41CF002E269D /* eNosAPI.m */; };
+		0EAB2A7B1B7F71A1002E269D /* GroupItems.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EAB2A7A1B7F71A1002E269D /* GroupItems.m */; };
 		0ED819F51B7F0EBB00385178 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ED819F41B7F0EBB00385178 /* main.m */; };
 		0ED819F81B7F0EBB00385178 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ED819F71B7F0EBB00385178 /* AppDelegate.m */; };
 		0ED819FB1B7F0EBB00385178 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ED819FA1B7F0EBB00385178 /* ViewController.m */; };
@@ -127,6 +128,9 @@
 		0EAB2A6A1B7F375B002E269D /* HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeViewController.m; sourceTree = "<group>"; };
 		0EAB2A721B7F41CF002E269D /* eNosAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = eNosAPI.h; sourceTree = "<group>"; };
 		0EAB2A731B7F41CF002E269D /* eNosAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = eNosAPI.m; sourceTree = "<group>"; };
+		0EAB2A751B7F6C8E002E269D /* defines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = defines.h; sourceTree = "<group>"; };
+		0EAB2A791B7F71A1002E269D /* GroupItems.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupItems.h; sourceTree = "<group>"; };
+		0EAB2A7A1B7F71A1002E269D /* GroupItems.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupItems.m; sourceTree = "<group>"; };
 		0ED819EF1B7F0EBB00385178 /* eNos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = eNos.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0ED819F31B7F0EBB00385178 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0ED819F41B7F0EBB00385178 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -279,8 +283,11 @@
 				0ED819FA1B7F0EBB00385178 /* ViewController.m */,
 				0EAB2A691B7F375B002E269D /* HomeViewController.h */,
 				0EAB2A6A1B7F375B002E269D /* HomeViewController.m */,
+				0EAB2A791B7F71A1002E269D /* GroupItems.h */,
+				0EAB2A7A1B7F71A1002E269D /* GroupItems.m */,
 				0EAB2A721B7F41CF002E269D /* eNosAPI.h */,
 				0EAB2A731B7F41CF002E269D /* eNosAPI.m */,
+				0EAB2A751B7F6C8E002E269D /* defines.h */,
 				0ED819FC1B7F0EBB00385178 /* Main.storyboard */,
 				0ED819FF1B7F0EBB00385178 /* Images.xcassets */,
 				0ED81A011B7F0EBB00385178 /* LaunchScreen.xib */,
@@ -494,6 +501,7 @@
 				0EAB2A431B7F3234002E269D /* SetpointUITableViewCell.m in Sources */,
 				0EAB2A631B7F3267002E269D /* OpenHABWidgetMapping.m in Sources */,
 				0EAB2A1C1B7F31D7002E269D /* Reachability+URL.m in Sources */,
+				0EAB2A7B1B7F71A1002E269D /* GroupItems.m in Sources */,
 				0EAB2A6B1B7F375B002E269D /* HomeViewController.m in Sources */,
 				0EAB2A451B7F3234002E269D /* SegmentedUITableViewCell.m in Sources */,
 				0EAB2A4A1B7F3234002E269D /* ChartUITableViewCell.m in Sources */,

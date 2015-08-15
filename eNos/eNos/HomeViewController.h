@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface HomeViewController : UICollectionViewController
-
+@property NSString *pageurl;
 @end

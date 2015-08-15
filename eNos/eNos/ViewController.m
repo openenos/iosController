@@ -112,16 +112,13 @@
 - (UIViewController *)tabSwipeNavigation:(CarbonTabSwipeNavigation *)tabSwipe viewControllerAtIndex:(NSUInteger)index {
 
         HomeViewController *viewController = [self.storyboard instantiateViewControllerWithIdentifier:@"homeview"];
-    
-//        viewController.pageUrl = [linkedpages objectForKey:[groupnames objectAtIndex:index]];
+        viewController.pageurl = [linkedpages objectForKey:[groupnames objectAtIndex:index]];
         return viewController;
 }
 
 // optional
 - (void)tabSwipeNavigation:(CarbonTabSwipeNavigation *)tabSwipe didMoveAtIndex:(NSInteger)index {
-    NSLog(@"Current tab: %d", (int)index);
-    
-    
+//    NSLog(@"Current tab: %d", (int)index);
     
 }
 

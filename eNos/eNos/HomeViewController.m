@@ -7,9 +7,12 @@
 //
 
 #import "HomeViewController.h"
-
+#import "eNosAPI.h"
+#import "GroupItems.h"
 @interface HomeViewController ()
-
+{
+    NSMutableArray *items_list;
+}
 @end
 
 @implementation HomeViewController
@@ -19,10 +22,45 @@ static NSString * const reuseIdentifier = @"Cell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    items_list = [NSMutableArray new];
+    
     // Uncomment the following line to preserve selection between presentations
     // self.clearsSelectionOnViewWillAppear = NO;
     
     // Register cell classes
+    
+    
+    [[eNosAPI sharedAPI] getGroupItems:self.pageurl block:^(id responseObject, NSError *error) {
+        
+        if (!error) {
+            
+            NSArray *memebers = [responseObject objectForKey:@"members"];
+            
+            for (NSDictionary *memeber in memebers) {
+                
+                NSArray *memebers = [memeber objectForKey:@"members"];
+                
+                GroupItems *groupitem = [[GroupItems alloc] init];
+                
+                NSDictionary *memberdict = [memebers objectAtIndex:0];
+                
+                [groupitem setItemtype:[memberdict objectForKey:@"type"]];
+                [groupitem setLabel:[memberdict objectForKey:@"label"]];
+                [groupitem setState:[memberdict objectForKey:@"state"]];
+                [groupitem setTitle:[memeber objectForKey:@"label"]];
+                
+                [items_list addObject:groupitem];
+            }
+            
+            NSLog(@"%d",items_list.count);
+            [self.collectionView reloadData];
+            
+        }else
+        {
+            NSLog(@"%@",error);
+        }
+    }];
+    
     [self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:reuseIdentifier];
     
     // Do any additional setup after loading the view.
@@ -46,12 +84,12 @@ static NSString * const reuseIdentifier = @"Cell";
 #pragma mark <UICollectionViewDataSource>
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-    return 0;
+    return 1;
 }
 
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return 0;
+    return items_list.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {

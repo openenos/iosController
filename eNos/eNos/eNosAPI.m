@@ -7,7 +7,6 @@
 //
 
 #import "eNosAPI.h"
-#define BASE_URL @"http://192.168.199.40:8080"
 @implementation eNosAPI
 +(eNosAPI *)sharedAPI
 {
@@ -48,6 +47,15 @@
 -(void)getSitemaps:(NSDictionary *)params block:(void (^)(id, NSError *))block
 {
     [self GET:@"/rest/sitemaps" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        block(responseObject,nil);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        block([NSDictionary new],error);
+    }];
+}
+
+-(void)getGroupItems:(NSString *)url block:(void (^)(id, NSError *))block
+{
+    [self GET:[url stringByReplacingOccurrencesOfString:BASE_URL withString:@""] parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         block(responseObject,nil);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         block([NSDictionary new],error);

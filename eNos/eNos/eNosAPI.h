@@ -7,12 +7,12 @@
 //
 
 #import "AFHTTPRequestOperationManager.h"
-
+#import "defines.h"
 @interface eNosAPI : AFHTTPRequestOperationManager
 +(eNosAPI *)sharedAPI;
 -(id)initWithBaseURL:(NSURL *)url;
 
 -(void)getSitemaps:(NSDictionary *)params block:(void(^)(id responseObject, NSError *error))block;
 -(void)getGroups:(NSString *)url block:(void(^)(id responseObject, NSError *error))block;
-
+-(void)getGroupItems:(NSString *)url block:(void(^)(id responseObject, NSError *error))block;
 @end
