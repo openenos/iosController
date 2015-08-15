@@ -21,7 +21,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1174" y="424"/>
+            <point key="canvasLocation" x="868" y="556"/>
         </scene>
         <!--Home View Controller-->
         <scene sceneID="loD-27-X1W">
@@ -38,14 +38,30 @@
                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         </collectionViewFlowLayout>
                         <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="GenericWidgetCell" id="VMm-D9-Ge5">
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="GenericWidgetCell" id="VMm-D9-Ge5" customClass="GenericUITableViewCell">
                                 <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                     <rect key="frame" x="0.0" y="0.0" width="250" height="250"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TrN-JS-H1d">
+                                            <rect key="frame" x="8" y="114" width="234" height="21"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="21" id="sXk-oU-Am6"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="TrN-JS-H1d" secondAttribute="trailing" constant="8" id="H8q-wW-iDF"/>
+                                    <constraint firstItem="TrN-JS-H1d" firstAttribute="top" secondItem="VMm-D9-Ge5" secondAttribute="top" constant="114" id="Tma-Lj-mm7"/>
+                                    <constraint firstItem="TrN-JS-H1d" firstAttribute="leading" secondItem="VMm-D9-Ge5" secondAttribute="leading" constant="8" id="cpK-6f-AU8"/>
+                                </constraints>
                             </collectionViewCell>
                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="SwitchWidgetCell" id="NiJ-aw-knr" customClass="SwitchUITableViewCell">
                                 <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
@@ -102,25 +118,41 @@
                                     <constraint firstAttribute="trailing" secondItem="qei-21-hk0" secondAttribute="trailing" constant="14" id="x1N-J6-723"/>
                                 </constraints>
                             </collectionViewCell>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="SetpointWidgetCell" id="V8Z-gH-ziv">
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="SliderWidgetCell" id="V8Z-gH-ziv" customClass="SliderUITableViewCell">
                                 <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                     <rect key="frame" x="0.0" y="0.0" width="250" height="250"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <slider opaque="NO" tag="400" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="pvT-qA-lle">
+                                            <rect key="frame" x="6" y="80" width="238" height="31"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="30" id="qnO-dB-9bG"/>
+                                            </constraints>
+                                        </slider>
+                                        <label opaque="NO" userInteractionEnabled="NO" tag="101" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AEu-ZJ-O1j">
+                                            <rect key="frame" x="8" y="44" width="234" height="21"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="21" id="G26-ZW-zVu"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
+                                <constraints>
+                                    <constraint firstItem="AEu-ZJ-O1j" firstAttribute="leading" secondItem="V8Z-gH-ziv" secondAttribute="leading" constant="8" id="5pV-In-ZtI"/>
+                                    <constraint firstAttribute="trailing" secondItem="AEu-ZJ-O1j" secondAttribute="trailing" constant="8" id="7mm-HJ-Y2a"/>
+                                    <constraint firstItem="AEu-ZJ-O1j" firstAttribute="top" secondItem="V8Z-gH-ziv" secondAttribute="top" constant="44" id="B8I-HZ-Zjg"/>
+                                    <constraint firstItem="pvT-qA-lle" firstAttribute="leading" secondItem="V8Z-gH-ziv" secondAttribute="leading" constant="8" id="JJR-9o-fv9"/>
+                                    <constraint firstItem="pvT-qA-lle" firstAttribute="top" secondItem="AEu-ZJ-O1j" secondAttribute="bottom" constant="15" id="bXN-MJ-R24"/>
+                                    <constraint firstAttribute="trailing" secondItem="pvT-qA-lle" secondAttribute="trailing" constant="8" id="fIM-lF-iaM"/>
+                                </constraints>
                             </collectionViewCell>
                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ColorPickerWidgetCell" id="KzX-dy-MSI">
-                                <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="250" height="250"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                </view>
-                            </collectionViewCell>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="SliderWidgetCell" id="GA1-36-UMq">
                                 <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
