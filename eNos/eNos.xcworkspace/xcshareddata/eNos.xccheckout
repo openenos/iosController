@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>D7FDB2DD-756B-468B-8017-C5BED4635760</string>
+	<key>IDESourceControlProjectName</key>
+	<string>eNos</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>44DB0D2D14C39B0443A10F0610EA160D671E159A</key>
+		<string>github.com:openenos/iosController.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>eNos/eNos.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>44DB0D2D14C39B0443A10F0610EA160D671E159A</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>github.com:openenos/iosController.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>44DB0D2D14C39B0443A10F0610EA160D671E159A</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>44DB0D2D14C39B0443A10F0610EA160D671E159A</string>
+			<key>IDESourceControlWCCName</key>
+			<string>iosController</string>
+		</dict>
+	</array>
+</dict>
+</plist>

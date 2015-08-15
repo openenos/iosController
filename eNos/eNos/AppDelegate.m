@@ -8,12 +8,27 @@
 
 #import "AppDelegate.h"
 #import "HexColor.h"
-@interface AppDelegate ()
-
+#import "AFNetworking.h"
+#import "NSData+HexString.h"
+#import "TSMessage.h"
+@import AVFoundation;
+#import "OpenHABAppDataDelegate.h"
+#import "OpenHABDataObject.h"
+#import "AFRememberingSecurityPolicy.h"
+@interface AppDelegate ()<OpenHABAppDataDelegate>
+{
+    AVAudioPlayer *player;
+}
+@property (nonatomic, retain) OpenHABDataObject* appData;
 @end
 
 @implementation AppDelegate
 
+- (id)init
+{
+    self.appData = [[OpenHABDataObject alloc] init];
+    return [super init];
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
@@ -21,6 +36,24 @@
     [[UINavigationBar appearance] setTranslucent:NO];
     [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithHexString:@"#F60"]];
     [[UINavigationBar appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIFont fontWithName:@"HelveticaNeue-Bold" size:15],NSFontAttributeName,[UIColor whiteColor],NSForegroundColorAttributeName, nil]];
+    
+    [self loadSettingsDefaults];
+    [AFRememberingSecurityPolicy initializeCertificatesStore];
+    // Notification registration now depends on iOS version (befor iOS8 and after it)
+    if ([[UIApplication sharedApplication] respondsToSelector:@selector(isRegisteredForRemoteNotifications)]) {
+        // iOS 8 Notifications
+        [[UIApplication sharedApplication] registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:(UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge) categories:nil]];
+        [[UIApplication sharedApplication] registerForRemoteNotifications];
+    } else {
+        // iOS < 8 Notifications
+        [[UIApplication sharedApplication] registerForRemoteNotificationTypes:
+         (UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
+    }
+    NSLog(@"uniq id %@", [UIDevice currentDevice].identifierForVendor.UUIDString);
+    NSLog(@"device name %@", [UIDevice currentDevice].name);
+    //    AudioSessionInitialize(NULL, NULL, nil , nil);
+    //    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error: nil];
+    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryAmbient withOptions:AVAudioSessionCategoryOptionDuckOthers error:nil];
     
     return YES;
 }
@@ -45,6 +78,74 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+{
+    // TODO: Pass this parameters to openHABViewController somehow to open specified sitemap/page and send specified command
+    // Probably need to do this in a way compatible to Android app's URL
+    NSLog(@"Calling Application Bundle ID: %@", sourceApplication);
+    NSLog(@"URL scheme:%@", [url scheme]);
+    NSLog(@"URL query: %@", [url query]);
+    
+    return YES;
+}
+
+- (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
+{
+    NSLog(@"My token is: %@", [deviceToken hexString]);
+    NSDictionary *dataDict = @{
+                               @"deviceToken": [deviceToken hexString],
+                               @"deviceId": [UIDevice currentDevice].identifierForVendor.UUIDString,
+                               @"deviceName": [UIDevice currentDevice].name,
+                               };
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"apsRegistered" object:self userInfo:dataDict];
+}
+
+- (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error
+{
+    NSLog(@"Failed to get token, error: %@", error);
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
+{
+    NSLog(@"didReceiveRemoteNotification");
+    if (application.applicationState == UIApplicationStateActive) {
+        NSLog(@"App is active and got a remote notification");
+        NSLog(@"%@", [userInfo valueForKey:@"aps"]);
+        NSString *message = [[[userInfo valueForKey:@"aps"] valueForKey:@"alert"] valueForKey:@"body"];
+        NSURL* soundPath = [[NSBundle mainBundle] URLForResource: @"ping" withExtension:@"wav"];
+        NSLog(@"Sound path %@", soundPath);
+        player = [[AVAudioPlayer alloc] initWithContentsOfURL:soundPath error:nil];
+        if (player != nil) {
+            player.numberOfLoops = 0;
+            [player play];
+        } else {
+            NSLog(@"AVPlayer error");
+        }
+        [TSMessage showNotificationInViewController:((UINavigationController*)self.window.rootViewController).visibleViewController title:@"Notification" subtitle:message image:nil type:TSMessageNotificationTypeMessage duration:5.0 callback:nil buttonTitle:nil buttonCallback:nil atPosition:TSMessageNotificationPositionBottom canBeDismissedByUser:YES];
+    }
+}
+
+
+- (void)loadSettingsDefaults
+{
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    if (![prefs objectForKey:@"localUrl"])
+        [prefs setValue:@"" forKey:@"localUrl"];
+    if (![prefs objectForKey:@"remoteUrl"])
+        [prefs setValue:@"" forKey:@"remoteUrl"];
+    if (![prefs objectForKey:@"username"])
+        [prefs setValue:@"" forKey:@"username"];
+    if (![prefs objectForKey:@"password"])
+        [prefs setValue:@"" forKey:@"password"];
+    if (![prefs objectForKey:@"ignoreSSL"])
+        [prefs setBool:NO forKey:@"ignoreSSL"];
+    if (![prefs objectForKey:@"demomode"])
+        [prefs setBool:YES forKey:@"demomode"];
+    if (![prefs objectForKey:@"idleOff"])
+        [prefs setBool:NO forKey:@"idleOff"];
 }
 
 @end
