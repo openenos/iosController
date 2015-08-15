@@ -20,8 +20,6 @@
     self = [super initWithCoder:coder];
     if (self) {
         self.widgetSegmentedControl = (UISegmentedControl *)[self viewWithTag:300];
-        self.selectionStyle = UITableViewCellSelectionStyleNone;
-        self.separatorInset = UIEdgeInsetsZero;
     }
     return self;
 }

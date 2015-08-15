@@ -18,8 +18,6 @@
     self = [super initWithCoder:coder];
     if (self) {
         self.widgetSwitch = (UISwitch *)[self viewWithTag:200];
-        self.selectionStyle = UITableViewCellSelectionStyleNone;
-        self.separatorInset = UIEdgeInsetsZero;
     }
     return self;
 }

@@ -17,8 +17,6 @@
     self = [super initWithCoder:coder];
     if (self) {
         self.textLabel = (UILabel *)[self viewWithTag:100];
-        self.selectionStyle = UITableViewCellSelectionStyleNone;
-        self.separatorInset = UIEdgeInsetsZero;
     }
     return self;
 }
@@ -27,13 +25,6 @@
 {
     self.textLabel.text = [self.widget.label uppercaseString];
     [self.contentView sizeToFit];
-}
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated
-{
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
 }
 
 @end

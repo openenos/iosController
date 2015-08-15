@@ -16,8 +16,6 @@
 {
     self = [super initWithCoder:coder];
     if (self) {
-        self.selectionStyle = UITableViewCellSelectionStyleNone;
-        self.separatorInset = UIEdgeInsetsZero;
         widgetWebView = (UIWebView*)[self viewWithTag:1001];
     }
     return self;

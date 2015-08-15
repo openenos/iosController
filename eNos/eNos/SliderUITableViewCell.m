@@ -18,8 +18,6 @@
     self = [super initWithCoder:coder];
     if (self) {
         self.widgetSlider = (UISlider *)[self viewWithTag:400];
-        self.selectionStyle = UITableViewCellSelectionStyleNone;
-        self.separatorInset = UIEdgeInsetsZero;
     }
     return self;
 }

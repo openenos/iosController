@@ -18,30 +18,17 @@
     if (self) {
         self.textLabel = (UILabel *)[self viewWithTag:101];
         self.detailTextLabel = (UILabel *)[self viewWithTag:100];
-        self.selectionStyle = UITableViewCellSelectionStyleNone;
-        self.separatorInset = UIEdgeInsetsZero;
     }
     return self;
-}
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated
-{
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
 }
 
 - (void)loadWidget:(OpenHABWidget *)widgetToLoad
 {
     self.widget = widgetToLoad;
     if (widget.linkedPage != nil) {
-        self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        self.selectionStyle = UITableViewCellSelectionStyleBlue;
 //        self.userInteractionEnabled = YES;
     } else {
-        self.accessoryType = UITableViewCellAccessoryNone;
-        self.selectionStyle = UITableViewCellSelectionStyleNone;
-//        self.userInteractionEnabled = NO;
+     //        self.userInteractionEnabled = NO;
     }
         
 }
@@ -59,19 +46,6 @@
         [self removeConstraints:disclosureConstraints];
         disclosureConstraints = nil;
     }
-    if (self.accessoryType == UITableViewCellAccessoryNone) {
-        // If accessory is disabled, set detailTextLabel (widget value) constraing 20px to the right for padding to the right side of table view
-        if (self.detailTextLabel != nil) {
-            self.disclosureConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"[detailTextLabel]-20.0-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(detailTextLabel)];
-            [self addConstraints:disclosureConstraints];
-        }
-    } else {
-        // If accessory is enabled, set detailTextLabel (widget value) constraint 0px to the right
-        if (self.detailTextLabel != nil) {
-            self.disclosureConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"[detailTextLabel]|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(detailTextLabel)];
-            [self addConstraints:disclosureConstraints];
-        }
-    }
     if (self.widget.valuecolor != nil) {
         [self.detailTextLabel setTextColor:[self colorFromHexString:self.widget.valuecolor]];
     } else {
@@ -87,7 +61,7 @@
 // This is to fix possible different sizes of user icons - we fix size and position of UITableViewCell icons
 - (void)layoutSubviews {
     [super layoutSubviews];
-    self.imageView.frame = CGRectMake(13,5,32,32);
+//    self.maskView.frame = CGRectMake(13,5,32,32);
 }
 
 - (UIColor *)colorFromHexString:(NSString *)hexString {

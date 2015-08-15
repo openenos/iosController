@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "OpenHABWidget.h"
 
-@interface GenericUITableViewCell : UITableViewCell
+@interface GenericUITableViewCell : UICollectionViewCell
 {
     OpenHABWidget * widget;
 }

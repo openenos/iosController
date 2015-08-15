@@ -30,8 +30,6 @@
         [upButton addTarget:self action:@selector(upButtonPressed) forControlEvents:UIControlEventTouchUpInside];
         [stopButton addTarget:self action:@selector(stopButtonPressed) forControlEvents:UIControlEventTouchUpInside];
         [downButton addTarget:self action:@selector(downButtonPressed) forControlEvents:UIControlEventTouchUpInside];
-        self.selectionStyle = UITableViewCellSelectionStyleNone;
-        self.separatorInset = UIEdgeInsetsZero;
     }
     return self;
 }

@@ -19,8 +19,6 @@
     self = [super initWithCoder:coder];
     if (self) {
         self.widgetSegmentedControl = (UISegmentedControl *)[self viewWithTag:500];
-        self.selectionStyle = UITableViewCellSelectionStyleNone;
-        self.separatorInset = UIEdgeInsetsZero;
     }
     return self;
 }

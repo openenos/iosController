@@ -47,14 +47,60 @@
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
                             </collectionViewCell>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="SwitchWidgetCell" id="NiJ-aw-knr">
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="SwitchWidgetCell" id="NiJ-aw-knr" customClass="SwitchUITableViewCell">
                                 <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                     <rect key="frame" x="0.0" y="0.0" width="250" height="250"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" tag="101" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Db-OK-IZ2">
+                                            <rect key="frame" x="0.0" y="8" width="242" height="21"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="21" id="u0z-BH-0HB"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="18"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Kku-Ca-Yn8">
+                                            <rect key="frame" x="75" y="75" width="100" height="100"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="100" id="C8f-7M-vbf"/>
+                                                <constraint firstAttribute="width" constant="100" id="cyY-NT-kFB"/>
+                                            </constraints>
+                                        </imageView>
+                                        <switch opaque="NO" tag="200" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qei-21-hk0">
+                                            <rect key="frame" x="187" y="198" width="51" height="31"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="31" id="Hng-5P-tVq"/>
+                                                <constraint firstAttribute="width" constant="49" id="hAD-PX-5Ix"/>
+                                            </constraints>
+                                        </switch>
+                                        <label opaque="NO" userInteractionEnabled="NO" tag="100" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="79g-X2-ouY">
+                                            <rect key="frame" x="8" y="203" width="171" height="21"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="21" id="Apf-a4-pwG"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
+                                <constraints>
+                                    <constraint firstItem="0Db-OK-IZ2" firstAttribute="leading" secondItem="NiJ-aw-knr" secondAttribute="leading" id="6ll-In-dx3"/>
+                                    <constraint firstAttribute="trailing" secondItem="0Db-OK-IZ2" secondAttribute="trailing" constant="8" id="EcH-1I-VOc"/>
+                                    <constraint firstItem="79g-X2-ouY" firstAttribute="top" secondItem="Kku-Ca-Yn8" secondAttribute="bottom" constant="28" id="LmF-bO-Thr"/>
+                                    <constraint firstAttribute="centerX" secondItem="Kku-Ca-Yn8" secondAttribute="centerX" id="Pe8-Tb-PfE"/>
+                                    <constraint firstAttribute="centerY" secondItem="Kku-Ca-Yn8" secondAttribute="centerY" id="daC-6P-HCG"/>
+                                    <constraint firstItem="0Db-OK-IZ2" firstAttribute="top" secondItem="NiJ-aw-knr" secondAttribute="top" constant="8" id="g7l-yX-DA1"/>
+                                    <constraint firstItem="79g-X2-ouY" firstAttribute="leading" secondItem="NiJ-aw-knr" secondAttribute="leading" constant="8" id="hnQ-rd-PgL"/>
+                                    <constraint firstItem="qei-21-hk0" firstAttribute="top" secondItem="0Db-OK-IZ2" secondAttribute="bottom" constant="169" id="mlt-RY-sfL"/>
+                                    <constraint firstItem="qei-21-hk0" firstAttribute="leading" secondItem="79g-X2-ouY" secondAttribute="trailing" constant="8" id="vfQ-hh-HWH"/>
+                                    <constraint firstAttribute="trailing" secondItem="qei-21-hk0" secondAttribute="trailing" constant="14" id="x1N-J6-723"/>
+                                </constraints>
                             </collectionViewCell>
                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="SetpointWidgetCell" id="V8Z-gH-ziv">
                                 <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
@@ -155,7 +201,7 @@
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hrU-Gp-Vtf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1855" y="291"/>
+            <point key="canvasLocation" x="1481" y="254"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="f7K-Zg-aWf">

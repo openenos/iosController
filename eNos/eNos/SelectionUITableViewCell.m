@@ -16,8 +16,6 @@
 - (void)loadWidget:(OpenHABWidget *)widgetToLoad
 {
     self.widget = widgetToLoad;
-    self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    self.selectionStyle = UITableViewCellSelectionStyleBlue;
 }
 
 - (void)displayWidget
