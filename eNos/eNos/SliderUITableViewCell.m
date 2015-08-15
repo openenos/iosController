@@ -25,7 +25,7 @@
 - (void)displayWidget
 {
     self.textLabel.text = [self.widget labelText];
-    float widgetValue = [widget.item stateAsFloat];
+    float widgetValue = [widget stateAsFloat];
     [self.widgetSlider setValue:widgetValue/100];
     [self.widgetSlider addTarget:self
                   action:@selector(sliderDidEndSliding:)
@@ -35,7 +35,7 @@
 - (void)sliderDidEndSliding:(NSNotification *)notification {
     NSLog(@"Slider new value = %f", self.widgetSlider.value);
     int intValue = self.widgetSlider.value * 100;
-    [self.widget sendCommand:[NSString stringWithFormat:@"%d", intValue]];
+//    [self.widget sendCommand:[NSString stringWithFormat:@"%d", intValue]];
 }
 
 @end

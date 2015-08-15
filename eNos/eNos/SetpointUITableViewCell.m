@@ -28,10 +28,10 @@
 {
     self.textLabel.text = [self.widget labelText];
     NSString *widgetValue;
-    if ([self.widget.item.state isEqual:@"Uninitialized"]) {
+    if ([self.widget.state isEqual:@"Uninitialized"]) {
         widgetValue = @"N/A";
     } else {
-        widgetValue = [NSString stringWithFormat:@"%.01f", [self.widget.item stateAsFloat]];
+        widgetValue = [NSString stringWithFormat:@"%.01f", [self.widget stateAsFloat]];
     }
     [self.widgetSegmentedControl setTitle:widgetValue forSegmentAtIndex:1];
     [self.widgetSegmentedControl addTarget:self
@@ -41,38 +41,38 @@
 
 -(void) pickOne:(id)sender
 {
-    UISegmentedControl *segmentedControl = (UISegmentedControl *)sender;
-    NSLog(@"Setpoint pressed %d", [segmentedControl selectedSegmentIndex]);
-    // Deselect segment in the middle
-    if ([segmentedControl selectedSegmentIndex] == 1) {
-        [self.widgetSegmentedControl setSelectedSegmentIndex:-1];
-    // - pressed
-    } else if ([segmentedControl selectedSegmentIndex] == 0) {
-        if ([self.widget.item.state isEqual:@"Uninitialized"]) {
-            [self.widget sendCommand:(NSString*)self.widget.minValue];
-        } else {
-            if (self.widget.minValue != nil) {
-                if ([self.widget.item stateAsFloat] - [self.widget.step floatValue] >= [self.widget.minValue floatValue]) {
-                    [self.widget sendCommand:[NSString stringWithFormat:@"%.01f", [self.widget.item stateAsFloat] - [self.widget.step floatValue]]];
-                }
-            } else {
-                [self.widget sendCommand:[NSString stringWithFormat:@"%.01f", [self.widget.item stateAsFloat] - [self.widget.step floatValue]]];
-            }
-        }
-    // + pressed
-    } else if ([segmentedControl selectedSegmentIndex] == 2) {
-        if ([self.widget.item.state isEqual:@"Uninitialized"]) {
-            [self.widget sendCommand:self.widget.minValue];
-        } else {
-            if (self.widget.maxValue != nil) {
-                if ([self.widget.item stateAsFloat] + [self.widget.step floatValue] <= [self.widget.maxValue floatValue]) {
-                    [self.widget sendCommand:[NSString stringWithFormat:@"%.01f", [self.widget.item stateAsFloat] + [self.widget.step floatValue]]];
-                }
-            } else {
-                [self.widget sendCommand:[NSString stringWithFormat:@"%.01f", [self.widget.item stateAsFloat] + [self.widget.step floatValue]]];
-            }
-        }
-    }
+//    UISegmentedControl *segmentedControl = (UISegmentedControl *)sender;
+//    NSLog(@"Setpoint pressed %d", [segmentedControl selectedSegmentIndex]);
+//    // Deselect segment in the middle
+//    if ([segmentedControl selectedSegmentIndex] == 1) {
+//        [self.widgetSegmentedControl setSelectedSegmentIndex:-1];
+//    // - pressed
+//    } else if ([segmentedControl selectedSegmentIndex] == 0) {
+//        if ([self.widget.state isEqual:@"Uninitialized"]) {
+////            [self.widget sendCommand:(NSString*)self.widget.minValue];
+//        } else {
+//            if (self.widget.minValue != nil) {
+//                if ([self.widget.item stateAsFloat] - [self.widget.step floatValue] >= [self.widget.minValue floatValue]) {
+//                    [self.widget sendCommand:[NSString stringWithFormat:@"%.01f", [self.widget.item stateAsFloat] - [self.widget.step floatValue]]];
+//                }
+//            } else {
+//                [self.widget sendCommand:[NSString stringWithFormat:@"%.01f", [self.widget.item stateAsFloat] - [self.widget.step floatValue]]];
+//            }
+//        }
+//    // + pressed
+//    } else if ([segmentedControl selectedSegmentIndex] == 2) {
+//        if ([self.widget.item.state isEqual:@"Uninitialized"]) {
+//            [self.widget sendCommand:self.widget.minValue];
+//        } else {
+//            if (self.widget.maxValue != nil) {
+//                if ([self.widget.item stateAsFloat] + [self.widget.step floatValue] <= [self.widget.maxValue floatValue]) {
+//                    [self.widget sendCommand:[NSString stringWithFormat:@"%.01f", [self.widget.item stateAsFloat] + [self.widget.step floatValue]]];
+//                }
+//            } else {
+//                [self.widget sendCommand:[NSString stringWithFormat:@"%.01f", [self.widget.item stateAsFloat] + [self.widget.step floatValue]]];
+//            }
+//        }
+//    }
 }
 
 @end

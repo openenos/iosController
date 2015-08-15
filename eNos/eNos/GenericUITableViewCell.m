@@ -8,7 +8,7 @@
 
 #import "GenericUITableViewCell.h"
 #import "OpenHABLinkedPage.h"
-
+#import "GroupItems.h"
 @implementation GenericUITableViewCell
 @synthesize widget, textLabel, detailTextLabel, disclosureConstraints;
 
@@ -18,19 +18,20 @@
     if (self) {
         self.textLabel = (UILabel *)[self viewWithTag:101];
         self.detailTextLabel = (UILabel *)[self viewWithTag:100];
+        self.statevalue = (UILabel *)[self viewWithTag:102];
     }
     return self;
 }
 
-- (void)loadWidget:(OpenHABWidget *)widgetToLoad
+- (void)loadWidget:(GroupItems *)widgetToLoad
 {
     self.widget = widgetToLoad;
-    if (widget.linkedPage != nil) {
-//        self.userInteractionEnabled = YES;
-    } else {
-     //        self.userInteractionEnabled = NO;
-    }
-        
+//    if (widget.linkedPage != nil) {
+////        self.userInteractionEnabled = YES;
+//    } else {
+//     //        self.userInteractionEnabled = NO;
+//    }
+    
 }
 
 - (void)displayWidget
@@ -40,22 +41,27 @@
         self.detailTextLabel.text = [self.widget labelValue];
     else
         self.detailTextLabel.text = nil;
+    
+    NSArray *array = [self.widget.pattern componentsSeparatedByString:@" "];
+    
+    self.statevalue.text = [NSString stringWithFormat:@"%@ %@",self.widget.state,[array objectAtIndex:1]];
+    
     [self.detailTextLabel sizeToFit];
     // Clean any detailTextLabel constraints we set before, or they will start to interfere with new ones because of UITableViewCell caching
-    if (self.disclosureConstraints != nil) {
-        [self removeConstraints:disclosureConstraints];
-        disclosureConstraints = nil;
-    }
-    if (self.widget.valuecolor != nil) {
-        [self.detailTextLabel setTextColor:[self colorFromHexString:self.widget.valuecolor]];
-    } else {
-        self.detailTextLabel.textColor = [UIColor lightGrayColor];
-    }
-    if (self.widget.labelcolor != nil) {
-        [self.textLabel setTextColor:[self colorFromHexString:self.widget.labelcolor]];
-    } else {
-        self.textLabel.textColor = [UIColor blackColor];
-    }
+//    if (self.disclosureConstraints != nil) {
+//        [self removeConstraints:disclosureConstraints];
+//        disclosureConstraints = nil;
+//    }
+//    if (self.widget.valuecolor != nil) {
+//        [self.detailTextLabel setTextColor:[self colorFromHexString:self.widget.valuecolor]];
+//    } else {
+//        self.detailTextLabel.textColor = [UIColor lightGrayColor];
+//    }
+//    if (self.widget.labelcolor != nil) {
+//        [self.textLabel setTextColor:[self colorFromHexString:self.widget.labelcolor]];
+//    } else {
+//        self.textLabel.textColor = [UIColor blackColor];
+//    }
 }
 
 // This is to fix possible different sizes of user icons - we fix size and position of UITableViewCell icons

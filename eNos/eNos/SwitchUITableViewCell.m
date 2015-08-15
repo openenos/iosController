@@ -29,7 +29,7 @@
         self.detailTextLabel.text = [self.widget labelValue];
     else
         self.detailTextLabel.text = nil;
-    if ([self.widget.item.state isEqualToString:@"ON"]) {
+    if ([self.widget.state isEqualToString:@"ON"]) {
         [self.widgetSwitch setOn:YES];
     } else {
         [self.widgetSwitch setOn:NO];
@@ -41,10 +41,10 @@
 - (void)switchChange:(id)sender{
     if (self.widgetSwitch.isOn) {
         NSLog(@"Switch to ON");
-        [self.widget sendCommand:@"ON"];
+//        [self.widget sendCommand:@"ON"];
     } else {
         NSLog(@"Switch to OFF");
-        [self.widget sendCommand:@"OFF"];
+//        [self.widget sendCommand:@"OFF"];
     }
 }
 
