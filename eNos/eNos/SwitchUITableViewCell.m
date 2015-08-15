@@ -8,7 +8,7 @@
 
 #import "SwitchUITableViewCell.h"
 #import "OpenHABWidget.h"
-#import "OpenHABItem.h"
+#import "GroupItems.h"
 
 @implementation SwitchUITableViewCell
 @synthesize widgetSwitch;
@@ -41,10 +41,10 @@
 - (void)switchChange:(id)sender{
     if (self.widgetSwitch.isOn) {
         NSLog(@"Switch to ON");
-//        [self.widget sendCommand:@"ON"];
+        [self.widget sendCommand:@"ON"];
     } else {
         NSLog(@"Switch to OFF");
-//        [self.widget sendCommand:@"OFF"];
+        [self.widget sendCommand:@"OFF"];
     }
 }
 

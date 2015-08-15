@@ -23,6 +23,8 @@
 @interface HomeViewController ()
 {
     NSMutableArray *items_list;
+    AFHTTPRequestOperation *currentPageOperation;
+    AFHTTPRequestOperation *commandOperation;
 }
 @end
 
@@ -42,7 +44,15 @@ static NSString * const reuseIdentifier = @"Cell";
     
     // Register cell classes
     
+    [self loadDefaultdata];
+
+    [self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:reuseIdentifier];
     
+    // Do any additional setup after loading the view.
+}
+
+-(void)loadDefaultdata
+{
     [[eNosAPI sharedAPI] getGroupItems:self.pageurl block:^(id responseObject, NSError *error) {
         
         if (!error) {
@@ -61,13 +71,14 @@ static NSString * const reuseIdentifier = @"Cell";
                 [groupitem setLabelValue:[memberdict objectForKey:@"label"]];
                 [groupitem setState:[memberdict objectForKey:@"state"]];
                 [groupitem setLabelText:[memeber objectForKey:@"label"]];
+                [groupitem setLink:[memeber objectForKey:@"link"]];
                 
                 if ([memberdict objectForKey:@"stateDescription"] != (id)[NSNull null]) {
                     
                     [groupitem setPattern:[[memberdict objectForKey:@"stateDescription"] objectForKey:@"pattern"]];
                 }
                 
-                
+                [groupitem setDelegate:self];
                 [items_list addObject:groupitem];
             }
             
@@ -79,10 +90,7 @@ static NSString * const reuseIdentifier = @"Cell";
             NSLog(@"%@",error);
         }
     }];
-    
-    [self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:reuseIdentifier];
-    
-    // Do any additional setup after loading the view.
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -181,6 +189,96 @@ static NSString * const reuseIdentifier = @"Cell";
     return cell;
 }
 
+
+// OpenHABTracker delegate methods
+
+- (void)openHABTrackingProgress:(NSString *)message
+{
+    NSLog(@"OpenHABViewController %@", message);
+    [TSMessage showNotificationInViewController:self.navigationController title:@"Connecting" subtitle:message image:nil type:TSMessageNotificationTypeMessage duration:3.0 callback:nil buttonTitle:nil buttonCallback:nil atPosition:TSMessageNotificationPositionBottom canBeDismissedByUser:YES];
+}
+
+- (void)openHABTrackingError:(NSError *)error
+{
+    NSLog(@"OpenHABViewController discovery error");
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    [TSMessage showNotificationInViewController:self.navigationController title:@"Error" subtitle:[error localizedDescription] image:nil type:TSMessageNotificationTypeError duration:60.0 callback:nil buttonTitle:nil buttonCallback:nil atPosition:TSMessageNotificationPositionBottom canBeDismissedByUser:YES];
+}
+
+//- (void)openHABTracked:(NSString *)openHABUrl
+//{
+//    NSLog(@"OpenHABViewController openHAB URL = %@", openHABUrl);
+//    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+//    self.openHABRootUrl = openHABUrl;
+//   // [[self appData] setOpenHABRootUrl:openHABRootUrl];
+//    // Checking openHAB version
+//    NSURL *pageToLoadUrl = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"%@/rest/bindings", self.openHABRootUrl]];
+//    NSMutableURLRequest *pageRequest = [NSMutableURLRequest requestWithURL:pageToLoadUrl];
+//    [pageRequest setAuthCredentials:self.openHABUsername :self.openHABPassword];
+//    [pageRequest setTimeoutInterval:10.0];
+//    AFHTTPRequestOperation *versionPageOperation = [[AFHTTPRequestOperation alloc] initWithRequest:pageRequest];
+//    AFRememberingSecurityPolicy *policy = [AFRememberingSecurityPolicy policyWithPinningMode:AFSSLPinningModeNone];
+//    [policy setDelegate:self];
+//    currentPageOperation.securityPolicy = policy;
+//    if (self.ignoreSSLCertificate) {
+//        NSLog(@"Warning - ignoring invalid certificates");
+//        currentPageOperation.securityPolicy.allowInvalidCertificates = YES;
+//    }
+//    [versionPageOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+//        NSLog(@"This is an openHAB 2.X");
+//        [[self appData] setOpenHABVersion:2];
+//        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+//        NSData *response = (NSData*)responseObject;
+//        NSError *error;
+//        [self selectSitemap];
+//    } failure:^(AFHTTPRequestOperation *operation, NSError *error){
+//        NSLog(@"This is an openHAB 1.X");
+//        [[self appData] setOpenHABVersion:1];
+//        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+//        NSLog(@"Error:------>%@", [error description]);
+//        NSLog(@"error code %ld",(long)[operation.response statusCode]);
+//        [self selectSitemap];
+//    }];
+//    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+//    [versionPageOperation start];
+//}
+
+// /send command to an item
+
+- (void)sendCommand:(GroupItems *)item commandToSend:(NSString *)command
+{
+    NSURL *commandUrl = [[NSURL alloc] initWithString:item.link];
+    NSMutableURLRequest *commandRequest = [NSMutableURLRequest requestWithURL:commandUrl];
+    [commandRequest setHTTPMethod:@"POST"];
+    [commandRequest setHTTPBody:[command dataUsingEncoding:NSUTF8StringEncoding]];
+   // [commandRequest setAuthCredentials:self.openHABUsername :self.openHABPassword];
+    [commandRequest setValue:@"text/plain" forHTTPHeaderField:@"Content-type"];
+    if (commandOperation != nil) {
+        [commandOperation cancel];
+        commandOperation = nil;
+    }
+    commandOperation = [[AFHTTPRequestOperation alloc] initWithRequest:commandRequest];
+//    AFRememberingSecurityPolicy *policy = [AFRememberingSecurityPolicy policyWithPinningMode:AFSSLPinningModeNone];
+//    [policy setDelegate:self];
+//    commandOperation.securityPolicy = policy;
+//    if (self.ignoreSSLCertificate) {
+//        NSLog(@"Warning - ignoring invalid certificates");
+//        commandOperation.securityPolicy.allowInvalidCertificates = YES;
+//    }
+    [commandOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"Command sent!");
+        
+        
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error){
+        NSLog(@"Error:------>%@", [error localizedDescription]);
+        NSLog(@"error code %ld",(long)[operation.response statusCode]);
+    }];
+    NSLog(@"Timeout %f", commandRequest.timeoutInterval);
+    NSLog(@"OpenHABViewController posting %@ command to %@", command, item.link);
+    [commandOperation start];
+}
+
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
     
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
@@ -192,6 +290,8 @@ static NSString * const reuseIdentifier = @"Cell";
     
     
 }
+
+
 
 #pragma mark <UICollectionViewDelegate>
 

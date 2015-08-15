@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface HomeViewController : UICollectionViewController
+#import "GroupItems.h"
+#import <TSMessage.h>
+@interface HomeViewController : UICollectionViewController<GroupItemsDelegate>
 @property NSString *pageurl;
+- (void)openHABTracked:(NSString *)openHABUrl;
+
 @end
