@@ -61,5 +61,79 @@
         block([NSDictionary new],error);
     }];
 }
+//Getting new things in Inbox
+-(void)getNewDevice:(NSDictionary *)param block:(void (^)(id, NSError *))block
+{
+    [self GET:@"/rest/inbox" parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        block(responseObject,nil);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        block([NSDictionary new],error);
+    }];
+}
+//Approve the thing in Inbox
+-(void)ApproveThings:(NSString *)param block:(void(^)(id,NSError *))block
+{
+    [self POST:[NSString stringWithFormat:@"/rest/inbox/%@/approve",param] parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        block(responseObject,nil);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        block([NSDictionary new],error);
+    }];
+}
+//Adding the things to Groups form Inbox
+-(void)ThingsAddedToGroup:(NSString *)thingId groupNames:(NSArray *)param block:(void (^)(id, NSError *))block
+{
+[self PUT:[NSString stringWithFormat:@"/rest/setup/things/%@/groups", thingId] parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    block(responseObject,nil);
+} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+    block([NSDictionary new],error);
+}];
+}
+//Geting the groups For inbox items
+-(void)getGroupsInbox:(NSString *)url block:(void (^)(id, NSError *))block
+{
+[self GET:@"/rest/setup/groups" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    block(responseObject,nil);
+} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+    block([NSDictionary new],error);
+}];
 
+}
+//Deleting the thing from inbox
+-(void)deleteThingFromInbox:(NSString *)thing block:(void (^)(id, NSError *))block
+{
+    [self DELETE:[NSString stringWithFormat:@"/rest/index/%@",thing] parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        block(responseObject,nil);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        block([NSDictionary new],error);
+    }];
+
+
+//    [self POST:@"" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+//        block(responseObject,nil);
+//    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+//        block([NSDictionary new],error);
+//    }];
+
+}
+//Ignoring Things from Inbox
+-(void)ignoringThingsfromInbox:(NSString *)thingId block:(void (^)(id, NSError *))block
+{
+
+[self POST:[NSString stringWithFormat:@"/rest/inbox/%@/ignore",thingId] parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    block(responseObject,nil);
+} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+    block([NSDictionary new],error);
+}];
+}
+
+//geting all things
+-(void)getAllThings:(NSString *)url block:(void (^)(id, NSError *))block
+{
+
+[self GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    block(responseObject,nil);
+} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+    block([NSDictionary new],error);
+}];
+}
 @end

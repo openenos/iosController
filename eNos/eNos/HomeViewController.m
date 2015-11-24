@@ -45,7 +45,7 @@ static NSString * const reuseIdentifier = @"Cell";
     
     // Register cell classes
     
-//    [self loadDefaultdata];
+    // [self loadDefaultdata];
     
     [self startTimer];
 

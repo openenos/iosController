@@ -12,12 +12,15 @@
 #import "HexColor.h"
 #import "eNosAPI.h"
 #import "OpenHABSitemap.h"
+#import "InboxModel.h"
+#import "InboxViewController.h"
 @interface ViewController ()
 {
     CarbonTabSwipeNavigation *tabSwipe;
     NSMutableArray *sitemaps;
     NSMutableArray *groupnames;
     NSMutableDictionary *linkedpages;
+    NSMutableArray *inboxData;
 }
 @end
 
@@ -77,8 +80,44 @@
         }
 
     }];
-
+    [self loadInBox];
     // Do any additional setup after loading the view, typically from a nib.
+}
+
+
+-(void)loadInBox
+{
+    
+     inboxData=[NSMutableArray new];
+    InboxModel *inbox=[[InboxModel alloc] init];
+    [inbox setThingId:@"enos:switch:SW004"];
+    [inbox setThingName:@"AC"];
+    [inboxData addObject:inbox];
+
+
+//[[eNosAPI sharedAPI] getNewDevice:nil block:^(id responseObject, NSError *error) {
+//    if (!error) {
+//    
+//        
+//        if ([responseObject isKindOfClass:[NSArray class]]) {
+//            inboxData=[NSMutableArray new];
+//            for (NSDictionary *dict in responseObject) {
+//                InboxModel *inbox=[[InboxModel alloc] init];
+//                [inbox setThingId:[dict objectForKey:@"thingUID"]];
+//                [inbox setThingName:[dict objectForKey:@"label"]];
+//                [inboxData addObject:inbox];
+//
+//            }
+//        }
+//        
+//    }else
+//    {
+//    
+//    
+//    }
+//}];
+//    
+    
 }
 
 -(void)loadTabbar:(NSMutableArray *)names
@@ -126,5 +165,17 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"inbox"]) {
+        
+        UINavigationController *navi=[segue destinationViewController];
+        InboxViewController *inbox=(InboxViewController *)navi.topViewController;
+        inbox.inboxInfo=inboxData;
+    }
 
+}
+- (IBAction)handleInbox:(id)sender {
+    [self performSegueWithIdentifier:@"inbox" sender:nil];
+}
 @end

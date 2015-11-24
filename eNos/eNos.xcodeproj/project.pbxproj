@@ -46,6 +46,15 @@
 		0ED81A001B7F0EBB00385178 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0ED819FF1B7F0EBB00385178 /* Images.xcassets */; };
 		0ED81A031B7F0EBB00385178 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0ED81A011B7F0EBB00385178 /* LaunchScreen.xib */; };
 		0ED81A0F1B7F0EBB00385178 /* eNosTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ED81A0E1B7F0EBB00385178 /* eNosTests.m */; };
+		58771F8A1B85D2D400948203 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 58771F891B85D2D400948203 /* Main_iPad.storyboard */; };
+		58771F8D1B85F27900948203 /* InboxViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 58771F8C1B85F27900948203 /* InboxViewController.m */; };
+		58771F901B860AD500948203 /* InBoxCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 58771F8F1B860AD500948203 /* InBoxCell.m */; };
+		58771F931B86144100948203 /* InboxModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 58771F921B86144100948203 /* InboxModel.m */; };
+		587CD50A1B87446E00C845AF /* Customcell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 587CD5091B87446E00C845AF /* Customcell.xib */; };
+		587CD50D1B87456000C845AF /* check_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 587CD50B1B87456000C845AF /* check_icon.png */; };
+		587CD50E1B87456000C845AF /* uncheck_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 587CD50C1B87456000C845AF /* uncheck_icon.png */; };
+		587CD5111B8745C100C845AF /* CustomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 587CD5101B8745C100C845AF /* CustomCell.m */; };
+		587CD5141B874B6000C845AF /* DXPopover.m in Sources */ = {isa = PBXBuildFile; fileRef = 587CD5131B874B6000C845AF /* DXPopover.m */; };
 		C1B8689A569A8C6C3543ECD0 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C7B1E0E98561BAE44377D169 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -139,6 +148,20 @@
 		0ED81A0D1B7F0EBB00385178 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0ED81A0E1B7F0EBB00385178 /* eNosTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = eNosTests.m; sourceTree = "<group>"; };
 		35A3343F75850D4055CA5286 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		58771F891B85D2D400948203 /* Main_iPad.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main_iPad.storyboard; sourceTree = "<group>"; };
+		58771F8B1B85F27900948203 /* InboxViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InboxViewController.h; sourceTree = "<group>"; };
+		58771F8C1B85F27900948203 /* InboxViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InboxViewController.m; sourceTree = "<group>"; };
+		58771F8E1B860AD500948203 /* InBoxCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InBoxCell.h; sourceTree = "<group>"; };
+		58771F8F1B860AD500948203 /* InBoxCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InBoxCell.m; sourceTree = "<group>"; };
+		58771F911B86144100948203 /* InboxModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InboxModel.h; sourceTree = "<group>"; };
+		58771F921B86144100948203 /* InboxModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InboxModel.m; sourceTree = "<group>"; };
+		587CD5091B87446E00C845AF /* Customcell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Customcell.xib; sourceTree = "<group>"; };
+		587CD50B1B87456000C845AF /* check_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = check_icon.png; sourceTree = "<group>"; };
+		587CD50C1B87456000C845AF /* uncheck_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = uncheck_icon.png; sourceTree = "<group>"; };
+		587CD50F1B8745C100C845AF /* CustomCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomCell.h; sourceTree = "<group>"; };
+		587CD5101B8745C100C845AF /* CustomCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomCell.m; sourceTree = "<group>"; };
+		587CD5121B874B6000C845AF /* DXPopover.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DXPopover.h; sourceTree = "<group>"; };
+		587CD5131B874B6000C845AF /* DXPopover.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DXPopover.m; sourceTree = "<group>"; };
 		66CF4843E117F3EAC2694121 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		C7B1E0E98561BAE44377D169 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -273,12 +296,26 @@
 				0ED819FA1B7F0EBB00385178 /* ViewController.m */,
 				0EAB2A691B7F375B002E269D /* HomeViewController.h */,
 				0EAB2A6A1B7F375B002E269D /* HomeViewController.m */,
+				58771F8B1B85F27900948203 /* InboxViewController.h */,
+				58771F8C1B85F27900948203 /* InboxViewController.m */,
+				58771F8E1B860AD500948203 /* InBoxCell.h */,
+				58771F8F1B860AD500948203 /* InBoxCell.m */,
+				587CD50F1B8745C100C845AF /* CustomCell.h */,
+				587CD5101B8745C100C845AF /* CustomCell.m */,
 				0EAB2A791B7F71A1002E269D /* GroupItems.h */,
 				0EAB2A7A1B7F71A1002E269D /* GroupItems.m */,
+				58771F911B86144100948203 /* InboxModel.h */,
+				58771F921B86144100948203 /* InboxModel.m */,
 				0EAB2A721B7F41CF002E269D /* eNosAPI.h */,
 				0EAB2A731B7F41CF002E269D /* eNosAPI.m */,
 				0EAB2A751B7F6C8E002E269D /* defines.h */,
+				587CD50B1B87456000C845AF /* check_icon.png */,
+				587CD50C1B87456000C845AF /* uncheck_icon.png */,
 				0ED819FC1B7F0EBB00385178 /* Main.storyboard */,
+				58771F891B85D2D400948203 /* Main_iPad.storyboard */,
+				587CD5091B87446E00C845AF /* Customcell.xib */,
+				587CD5121B874B6000C845AF /* DXPopover.h */,
+				587CD5131B874B6000C845AF /* DXPopover.m */,
 				0ED819FF1B7F0EBB00385178 /* Images.xcassets */,
 				0ED81A011B7F0EBB00385178 /* LaunchScreen.xib */,
 				0ED819F21B7F0EBB00385178 /* Supporting Files */,
@@ -411,9 +448,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				58771F8A1B85D2D400948203 /* Main_iPad.storyboard in Resources */,
 				0ED819FE1B7F0EBB00385178 /* Main.storyboard in Resources */,
+				587CD50D1B87456000C845AF /* check_icon.png in Resources */,
 				0ED81A031B7F0EBB00385178 /* LaunchScreen.xib in Resources */,
+				587CD50E1B87456000C845AF /* uncheck_icon.png in Resources */,
 				0EAB2A651B7F3282002E269D /* ping.wav in Resources */,
+				587CD50A1B87446E00C845AF /* Customcell.xib in Resources */,
 				0ED81A001B7F0EBB00385178 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -479,6 +520,9 @@
 				0EAB2A421B7F3234002E269D /* SwitchUITableViewCell.m in Sources */,
 				0ED819F51B7F0EBB00385178 /* main.m in Sources */,
 				0EAB2A211B7F31F8002E269D /* UIAlertView+Block.m in Sources */,
+				587CD5141B874B6000C845AF /* DXPopover.m in Sources */,
+				58771F931B86144100948203 /* InboxModel.m in Sources */,
+				58771F901B860AD500948203 /* InBoxCell.m in Sources */,
 				0EAB2A4D1B7F3234002E269D /* WebUITableViewCell.m in Sources */,
 				0EAB2A181B7F31D7002E269D /* NSMutableURLRequest+Auth.m in Sources */,
 				0EAB2A491B7F3234002E269D /* ColorPickerViewController.m in Sources */,
@@ -492,10 +536,12 @@
 				0EAB2A1C1B7F31D7002E269D /* Reachability+URL.m in Sources */,
 				0EAB2A7B1B7F71A1002E269D /* GroupItems.m in Sources */,
 				0EAB2A6B1B7F375B002E269D /* HomeViewController.m in Sources */,
+				58771F8D1B85F27900948203 /* InboxViewController.m in Sources */,
 				0EAB2A451B7F3234002E269D /* SegmentedUITableViewCell.m in Sources */,
 				0EAB2A4A1B7F3234002E269D /* ChartUITableViewCell.m in Sources */,
 				0EAB2A461B7F3234002E269D /* RollershutterUITableViewCell.m in Sources */,
 				0EAB2A601B7F3267002E269D /* OpenHABSitemapPage.m in Sources */,
+				587CD5111B8745C100C845AF /* CustomCell.m in Sources */,
 				0EAB2A621B7F3267002E269D /* OpenHABDataObject.m in Sources */,
 				0EAB2A191B7F31D7002E269D /* NSObject+Data.m in Sources */,
 				0EAB2A221B7F31F8002E269D /* UICircleButton.m in Sources */,
