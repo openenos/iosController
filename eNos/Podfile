@@ -7,3 +7,6 @@ pod 'NKOColorPickerView', '~> 0.2'
 pod 'FastSocket', '~> 1.3’
 pod 'CarbonKit'
 pod 'HexColors'
+pod 'ChameleonFramework'
+pod 'MGSwipeTableCell'
+pod 'MQTTKit', :git => 'https://github.com/mobile-web-messaging/MQTTKit.git'

@@ -15,11 +15,23 @@
 #import "OpenHABAppDataDelegate.h"
 #import "OpenHABDataObject.h"
 #import "AFRememberingSecurityPolicy.h"
+#import <ChameleonFramework/Chameleon.h>
+#import "SlideNavigationController.h"
+#import "MenuViewController.h"
+#import "SlideNavigationContorllerAnimator.h"
+#import "SlideNavigationContorllerAnimatorFade.h"
+#import "SlideNavigationContorllerAnimatorSlide.h"
+#import "SlideNavigationContorllerAnimatorScale.h"
+#import "SlideNavigationContorllerAnimatorScaleAndFade.h"
+#import "SlideNavigationContorllerAnimatorSlideAndFade.h"
+#import <MQTTKit.h>
+#import "defines.h"
 @interface AppDelegate ()<OpenHABAppDataDelegate>
 {
     AVAudioPlayer *player;
 }
 @property (nonatomic, retain) OpenHABDataObject* appData;
+@property MQTTClient *client;
 @end
 
 @implementation AppDelegate
@@ -33,9 +45,27 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     
-    [[UINavigationBar appearance] setTranslucent:NO];
-    [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithHexString:@"#F60"]];
-    [[UINavigationBar appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIFont fontWithName:@"HelveticaNeue-Bold" size:15],NSFontAttributeName,[UIColor whiteColor],NSForegroundColorAttributeName, nil]];
+
+
+    MenuViewController *menuviewcontroller = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"menu"];
+    
+    [SlideNavigationController sharedInstance].leftMenu = menuviewcontroller;
+    [SlideNavigationController sharedInstance].menuRevealAnimationDuration = 0.18;
+    
+    [SlideNavigationController sharedInstance].menuRevealAnimator = [[SlideNavigationContorllerAnimatorScaleAndFade alloc] init];
+    [SlideNavigationController sharedInstance].menuRevealAnimationDuration = 0.22;
+    
+    [[UINavigationBar appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIFont fontWithName:@"HelveticaNeue-Bold" size:20],NSFontAttributeName,[UIColor whiteColor],NSForegroundColorAttributeName, nil]];
+    
+    [[UINavigationBar appearance] setBackgroundImage:[UIImage new]
+                                                  forBarMetrics:UIBarMetricsDefault];
+    [[UINavigationBar appearance] setShadowImage:[UIImage new]];
+    [[UINavigationBar appearance] setTranslucent:YES];
+    [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
+    
+    [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -100) forBarMetrics:UIBarMetricsDefault];
+    
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     
     [self loadSettingsDefaults];
     [AFRememberingSecurityPolicy initializeCertificatesStore];
@@ -49,8 +79,7 @@
         [[UIApplication sharedApplication] registerForRemoteNotificationTypes:
          (UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
     }
-    NSLog(@"uniq id %@", [UIDevice currentDevice].identifierForVendor.UUIDString);
-    NSLog(@"device name %@", [UIDevice currentDevice].name);
+    
     //    AudioSessionInitialize(NULL, NULL, nil , nil);
     //    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error: nil];
     [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryAmbient withOptions:AVAudioSessionCategoryOptionDuckOthers error:nil];

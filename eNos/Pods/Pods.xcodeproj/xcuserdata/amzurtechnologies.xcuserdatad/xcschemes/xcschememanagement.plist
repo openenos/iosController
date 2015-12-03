@@ -14,6 +14,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>ChameleonFramework.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>FastSocket.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -25,6 +30,16 @@
 			<false/>
 		</dict>
 		<key>HexColors.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>MGSwipeTableCell.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>MQTTKit.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -52,47 +67,62 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>18A4BA8BFD66F76A5A3AE5290D46B994</key>
+		<key>0180BC066FEAC74CDCF6552A963A5E18</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>1A16588351AC24756857209E9B6BFE96</key>
+		<key>0B3B972EABFAD04C90CE7C36BB3603CC</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>46E833BA5020ABC369F48E01B4357D94</key>
+		<key>0E44717E0BD8FDC2D8BFA4C4E4AECCDA</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>5352D432641F0656C90741034E32F31E</key>
+		<key>2602F3D0DAC534568B6AD7EEA0DD1959</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>56B5E02EDFBB593D03C6223AB15AA364</key>
+		<key>484F7522CCD4B460538535A920F370E4</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>6EFE4ECC95B7657BCC78FFB442DB421B</key>
+		<key>5BEA5134920FA9A59F15BC3BC8B483C1</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>9B0C7E5619318087239D6B6FEC3B191A</key>
+		<key>661266EBD6EA604C675CD4D5D02CF971</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>B5C533C0F237FF2DC28F05B7BBA8075F</key>
+		<key>74CD2F578138157E0B27CCEE08C069EF</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>FE7A75CC1FB5D6E9D7653EEF738725EA</key>
+		<key>8C463CD491D989B457394A7AA95384BC</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>9CDC2CFCBA099C6BF153C90BEC48E21E</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>AB231DDC144F382419EB4C2CE8B3901B</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>E9EF397B95762DDB254C71DDCB4B1381</key>
 		<dict>
 			<key>primary</key>
 			<true/>

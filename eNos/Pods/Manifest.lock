@@ -21,9 +21,14 @@ PODS:
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
   - CarbonKit (1.1.2)
+  - ChameleonFramework (2.0.4):
+    - ChameleonFramework/Default (= 2.0.4)
+  - ChameleonFramework/Default (2.0.4)
   - FastSocket (1.3)
   - GDataXML-HTML (1.2.0)
   - HexColors (2.2.1)
+  - MGSwipeTableCell (1.5.3)
+  - MQTTKit (0.1.0-next)
   - NKOColorPickerView (0.2)
   - SDWebImage (3.7.3):
     - SDWebImage/Core (= 3.7.3)
@@ -34,21 +39,36 @@ PODS:
 DEPENDENCIES:
   - AFNetworking (~> 2.5.4)
   - CarbonKit
+  - ChameleonFramework
   - FastSocket (~> 1.3)
   - GDataXML-HTML (~> 1.2.0)
   - HexColors
+  - MGSwipeTableCell
+  - MQTTKit (from `https://github.com/mobile-web-messaging/MQTTKit.git`)
   - NKOColorPickerView (~> 0.2)
   - SDWebImage (~> 3.7.3)
   - TSMessages (~> 0.9.12)
 
+EXTERNAL SOURCES:
+  MQTTKit:
+    :git: https://github.com/mobile-web-messaging/MQTTKit.git
+
+CHECKOUT OPTIONS:
+  MQTTKit:
+    :commit: 8f0753b98a60c8e6030000d877e0ef02e22b198b
+    :git: https://github.com/mobile-web-messaging/MQTTKit.git
+
 SPEC CHECKSUMS:
   AFNetworking: 05edc0ac4c4c8cf57bcf4b84be5b0744b6d8e71e
   CarbonKit: 8726ec16db8c30db702ac6decb0cf1a5d008daf7
+  ChameleonFramework: 5abe69b1f2a6cc79c3c435fcd9d3d855748225ee
   FastSocket: 0fa2716071517078d67ead1378d34af443bd54c4
   GDataXML-HTML: dac3692417e9fc612f8e12d8baae3706fccedcc8
   HexColors: abfd172e329dab59888614ccba6f216cec59289d
+  MGSwipeTableCell: 5ae3b9a15efda26b201adc8676b24040febe6ff6
+  MQTTKit: 513ffc31464db7adeffefac986e228fdf6cd87e5
   NKOColorPickerView: 3001ad15be1277dac3b80b300f530828e93b23ae
   SDWebImage: 1d2b1a1efda1ade1b00b6f8498865f8ddedc8a84
   TSMessages: c8cc7b80f2a833af533872cd02010cac061532cc
 
-COCOAPODS: 0.38.2
+COCOAPODS: 0.39.0

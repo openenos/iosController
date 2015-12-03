@@ -14,31 +14,52 @@
 #import "OpenHABSitemap.h"
 #import "InboxModel.h"
 #import "InboxViewController.h"
+#import <ChameleonFramework/Chameleon.h>
+#import <MQTTKit.h>
+
 @interface ViewController ()
 {
     CarbonTabSwipeNavigation *tabSwipe;
     NSMutableArray *sitemaps;
     NSMutableArray *groupnames;
-    NSMutableDictionary *linkedpages;
+    NSMutableArray *linkedpages;
     NSMutableArray *inboxData;
 }
+@property MQTTClient *client;
 @end
 
 @implementation ViewController
 
+#pragma mark - SlideNavigationController Methods -
+
+- (BOOL)slideNavigationControllerShouldDisplayLeftMenu
+{
+    return YES;
+}
+
 - (void)viewDidLoad {
+   
     [super viewDidLoad];
     
-    self.title = @"eNos";
+    self.title = @"eNOS";
+    
+       
+//    UIImage *image = [[UIImage imageNamed:@"menu"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+//    
+//    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:nil];
+//    
+//    self.navigationItem.leftBarButtonItem.tintColor = [UIColor whiteColor];
+    
+    self.bgview.backgroundColor = [UIColor clearColor];
     
     sitemaps = [NSMutableArray new];
     groupnames = [NSMutableArray new];
-    linkedpages = [NSMutableDictionary new];
+    linkedpages = [NSMutableArray new];
     
     [[eNosAPI sharedAPI] getSitemaps:nil block:^(id responseObject, NSError *error) {
         
         if ([responseObject isKindOfClass:[NSArray class]]) {
-            NSLog(@"Response is array");
+           
             for (id sitemapJson in responseObject) {
                 OpenHABSitemap *sitemap = [[OpenHABSitemap alloc] initWithDictionaty:sitemapJson];
                 [sitemaps addObject:sitemap];
@@ -61,13 +82,14 @@
                             for (NSDictionary *widget_obj in widgets) {
                                 
                                 [groupnames addObject:[widget_obj objectForKey:@"label"]];
-                                [linkedpages setObject:[[widget_obj objectForKey:@"item"] objectForKey:@"link"] forKey:[widget_obj objectForKey:@"label"]];
+                                [linkedpages addObject:[[widget_obj objectForKey:@"item"] objectForKey:@"link"]];
                                 
                             }
                         }
                     }
                     
-                    [self loadTabbar:groupnames];
+//                    [self loadTabbar:groupnames];
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"menu_update" object:[NSDictionary dictionaryWithObjectsAndKeys:groupnames,@"groups",linkedpages,@"linkedpages",nil]];
                     
                 }else{
                     
@@ -80,55 +102,55 @@
         }
 
     }];
-    [self loadInBox];
+//    [self loadInBox];
     // Do any additional setup after loading the view, typically from a nib.
 }
 
 
--(void)loadInBox
-{
-    
-     inboxData=[NSMutableArray new];
-    InboxModel *inbox=[[InboxModel alloc] init];
-    [inbox setThingId:@"enos:switch:SW004"];
-    [inbox setThingName:@"AC"];
-    [inboxData addObject:inbox];
-
-
-//[[eNosAPI sharedAPI] getNewDevice:nil block:^(id responseObject, NSError *error) {
-//    if (!error) {
+//-(void)loadInBox
+//{
 //    
-//        
-//        if ([responseObject isKindOfClass:[NSArray class]]) {
-//            inboxData=[NSMutableArray new];
-//            for (NSDictionary *dict in responseObject) {
-//                InboxModel *inbox=[[InboxModel alloc] init];
-//                [inbox setThingId:[dict objectForKey:@"thingUID"]];
-//                [inbox setThingName:[dict objectForKey:@"label"]];
-//                [inboxData addObject:inbox];
+//     inboxData=[NSMutableArray new];
+//    InboxModel *inbox=[[InboxModel alloc] init];
+//    [inbox setThingId:@"enos:switch:SW004"];
+//    [inbox setThingName:@"AC"];
+//    [inboxData addObject:inbox];
 //
-//            }
-//        }
-//        
-//    }else
-//    {
+//
+////[[eNosAPI sharedAPI] getNewDevice:nil block:^(id responseObject, NSError *error) {
+////    if (!error) {
+////    
+////        
+////        if ([responseObject isKindOfClass:[NSArray class]]) {
+////            inboxData=[NSMutableArray new];
+////            for (NSDictionary *dict in responseObject) {
+////                InboxModel *inbox=[[InboxModel alloc] init];
+////                [inbox setThingId:[dict objectForKey:@"thingUID"]];
+////                [inbox setThingName:[dict objectForKey:@"label"]];
+////                [inboxData addObject:inbox];
+////
+////            }
+////        }
+////        
+////    }else
+////    {
+////    
+////    
+////    }
+////}];
+////    
 //    
-//    
-//    }
-//}];
-//    
-    
-}
+//}
 
 -(void)loadTabbar:(NSMutableArray *)names
 {
-    tabSwipe = [[CarbonTabSwipeNavigation alloc] createWithRootViewController:self tabNames:names tintColor:[UIColor colorWithHexString:@"#F60"] delegate:self];
+    tabSwipe = [[CarbonTabSwipeNavigation alloc] createWithRootViewController:self tabNames:names tintColor:[UIColor clearColor] delegate:self];
     
     [tabSwipe setNormalColor:[UIColor lightGrayColor] font:[UIFont fontWithName:@"AvenirNext-DemiBold" size:14.0f]];
     
     [tabSwipe setSelectedColor:[UIColor whiteColor] font:[UIFont fontWithName:@"AvenirNext-Bold" size:15.0f]];
     
-    tabSwipe.view.backgroundColor = [UIColor colorWithHexString:@"#F60"];
+    tabSwipe.view.backgroundColor = [UIColor clearColor];
     
     [tabSwipe setIndicatorHeight:3.f]; // default 3.f
     
@@ -138,6 +160,10 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [tabSwipe setTranslucent:NO]; // remove translucent
+    
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+    self.navigationController.navigationBar.shadowImage = [UIImage new];
+    self.navigationController.navigationBar.translucent = YES;
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -150,8 +176,15 @@
 // required
 - (UIViewController *)tabSwipeNavigation:(CarbonTabSwipeNavigation *)tabSwipe viewControllerAtIndex:(NSUInteger)index {
 
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+    self.navigationController.navigationBar.shadowImage = [UIImage new];
+    self.navigationController.navigationBar.translucent = YES;
+    
         HomeViewController *viewController = [self.storyboard instantiateViewControllerWithIdentifier:@"homeview"];
-        viewController.pageurl = [linkedpages objectForKey:[groupnames objectAtIndex:index]];
+    
+//        viewController.pageurl = [linkedpages objectForKey:[groupnames objectAtIndex:index]];
+//        viewController.groupname = [groupnames objectAtIndex:index];
+    
         return viewController;
 }
 
@@ -167,12 +200,11 @@
 }
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([segue.identifier isEqualToString:@"inbox"]) {
-        
-        UINavigationController *navi=[segue destinationViewController];
-        InboxViewController *inbox=(InboxViewController *)navi.topViewController;
-        inbox.inboxInfo=inboxData;
-    }
+//    if ([segue.identifier isEqualToString:@"inbox"]) {
+//    
+//        InboxViewController *inbox=segue.destinationViewController;
+////        inbox.inboxInfo=inboxData;
+//    }
 
 }
 - (IBAction)handleInbox:(id)sender {

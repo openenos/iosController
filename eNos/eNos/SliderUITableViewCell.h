@@ -15,5 +15,6 @@
 
 @property (nonatomic, retain) UISlider *widgetSlider;
 @property (nonatomic, retain) UISwitch *widget_switch;
+@property (weak, nonatomic) IBOutlet UIImageView *high_slider_image;
 
 @end

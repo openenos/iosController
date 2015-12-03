@@ -19,6 +19,7 @@
         self.textLabel = (UILabel *)[self viewWithTag:101];
         self.detailTextLabel = (UILabel *)[self viewWithTag:100];
         self.statevalue = (UILabel *)[self viewWithTag:102];
+        self.image_icon = (UIImageView *)[self viewWithTag:104];
     }
     return self;
 }
@@ -46,22 +47,21 @@
     
     self.statevalue.text = [NSString stringWithFormat:@"%@ %@",self.widget.state,[array objectAtIndex:1]];
     
+    if ([self.widget.labelText isEqualToString:@"Building Energy"]) {
+        
+        self.image_icon.image = [[UIImage imageNamed:@"energy.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        self.image_icon.tintColor = [UIColor greenColor];
+        
+    }else if ([self.widget.labelText isEqualToString:@"Temperature"])
+    {
+        self.image_icon.image = [[UIImage imageNamed:@"temparature.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        self.image_icon.tintColor = [UIColor greenColor];
+    }
+    
+    self.image_icon.clipsToBounds = YES;
+    
     [self.detailTextLabel sizeToFit];
-    // Clean any detailTextLabel constraints we set before, or they will start to interfere with new ones because of UITableViewCell caching
-//    if (self.disclosureConstraints != nil) {
-//        [self removeConstraints:disclosureConstraints];
-//        disclosureConstraints = nil;
-//    }
-//    if (self.widget.valuecolor != nil) {
-//        [self.detailTextLabel setTextColor:[self colorFromHexString:self.widget.valuecolor]];
-//    } else {
-//        self.detailTextLabel.textColor = [UIColor lightGrayColor];
-//    }
-//    if (self.widget.labelcolor != nil) {
-//        [self.textLabel setTextColor:[self colorFromHexString:self.widget.labelcolor]];
-//    } else {
-//        self.textLabel.textColor = [UIColor blackColor];
-//    }
+
 }
 
 // This is to fix possible different sizes of user icons - we fix size and position of UITableViewCell icons

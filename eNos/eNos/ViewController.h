@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface ViewController : UIViewController
+#import "SlideNavigationController.h"
+@interface ViewController : UIViewController<SlideNavigationControllerDelegate>
 
 - (IBAction)handleInbox:(id)sender;
+@property (weak, nonatomic) IBOutlet UIView *bgview;
 
 @end
 

@@ -9,8 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "GroupItems.h"
 #import <TSMessage.h>
-@interface HomeViewController : UICollectionViewController<GroupItemsDelegate>
+#import "SlideNavigationController.h"
+#import "GenericUITableViewCell.h"
+@interface HomeViewController : UITableViewController<GroupItemsDelegate,SlideNavigationControllerDelegate,GenericCellDelegate>
 @property NSString *pageurl;
+@property NSString *groupname;
 - (void)openHABTracked:(NSString *)openHABUrl;
 
 @end

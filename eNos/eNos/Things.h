@@ -9,5 +9,10 @@
 #import <Foundation/Foundation.h>
 
 @interface Things : NSObject
-
+@property NSString *name;
+@property NSString *status_info;
+@property NSString *item_type;
+@property NSString *UID;
+@property NSString *switch_id;
+@property NSString *device_id;
 @end

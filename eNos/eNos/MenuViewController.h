@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import <ChameleonFramework/Chameleon.h>
 @interface MenuViewController : UITableViewController
-
+@property (nonatomic, assign) BOOL slideOutAnimationEnabled;
 @end

@@ -20,57 +20,216 @@
 #import "VideoUITableViewCell.h"
 #import "WebUITableViewCell.h"
 #import "HexColor.h"
+#import <MQTTKit.h>
+#import "SlideNavigationController.h"
+#import "OpenHABSitemap.h"
+
 @interface HomeViewController ()
 {
     NSMutableArray *items_list;
     AFHTTPRequestOperation *currentPageOperation;
     AFHTTPRequestOperation *commandOperation;
+    UILabel *status_label;
+    NSMutableDictionary *channels;
+    
+    NSMutableArray *sitemaps;
+    NSMutableArray *groupnames;
+    NSMutableArray *linkedpages;
+    NSMutableArray *inboxData;
 }
 @property (strong, nonatomic) dispatch_source_t timer;
+@property MQTTClient *client;
 @end
 
 @implementation HomeViewController
 
 static NSString * const reuseIdentifier = @"Cell";
 
+- (BOOL)slideNavigationControllerShouldDisplayLeftMenu
+{
+    return YES;
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+    self.navigationController.navigationBar.shadowImage = [UIImage new];
+    self.navigationController.navigationBar.translucent = YES;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleupdate:) name:@"update" object:nil];
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"update" object:nil];
+}
+
+
 - (void)viewDidLoad {
+    
     [super viewDidLoad];
     
-    self.collectionView.backgroundColor = [UIColor colorWithHexString:@"#f4f4f4"];
+    NSString *clientID = [UIDevice currentDevice].identifierForVendor.UUIDString;
     
-   
+     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadDefaultdata:) name:@"reload" object:nil];
     
-    // Uncomment the following line to preserve selection between presentations
-    // self.clearsSelectionOnViewWillAppear = NO;
+    self.client = [[MQTTClient alloc] initWithClientId:clientID];
     
-    // Register cell classes
+    [self.client setMessageHandler:^(MQTTMessage *message){
+        
+        NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:message.payloadString,@"value",message.topic,@"channel",nil];
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"update" object:dict];
+        
+    }];
     
-    // [self loadDefaultdata];
+    [self.client connectToHost:@"192.168.199.40" completionHandler:^(MQTTConnectionReturnCode code) {
+        
+        if (code == ConnectionAccepted) {
+            
+            NSLog(@"Client is connected with ID %@",clientID);
+            
+            [self.client subscribe:@"/enos/out/#" withCompletionHandler:^(NSArray *grantedQos) {
+                NSLog(@"Subsribed to Topic");
+            }];
+            
+        }else
+        {
+            NSLog(@"%lu",(unsigned long)code);
+        }
+    }];
     
-    [self startTimer];
+    sitemaps = [NSMutableArray new];
+    groupnames = [NSMutableArray new];
+    linkedpages = [NSMutableArray new];
+    
+    [[eNosAPI sharedAPI] getSitemaps:nil block:^(id responseObject, NSError *error) {
+        
+        if ([responseObject isKindOfClass:[NSArray class]]) {
+            
+            for (id sitemapJson in responseObject) {
+                OpenHABSitemap *sitemap = [[OpenHABSitemap alloc] initWithDictionaty:sitemapJson];
+                [sitemaps addObject:sitemap];
+            }
+            
+            NSString *url = [[sitemaps objectAtIndex:0] homepageLink];
+            
+            [[eNosAPI sharedAPI] getGroups:url block:^(id responseObject, NSError *error) {
+                
+                if (!error) {
+                    
+                    NSArray *widgets = [responseObject objectForKey:@"widgets"];
+                    
+                    for (NSDictionary *object in widgets) {
+                        
+                        if ([[object objectForKey:@"type"] isEqualToString:@"Frame"] && [[object objectForKey:@"label"] isEqualToString:@""]) {
+                            
+                            NSArray *widgets = [object objectForKey:@"widgets"];
+                            
+                            for (NSDictionary *widget_obj in widgets) {
+                                
+                                [groupnames addObject:[widget_obj objectForKey:@"label"]];
+                                [linkedpages addObject:[[widget_obj objectForKey:@"item"] objectForKey:@"link"]];
+                                
+                            }
+                        }
+                    }
+                    
+                    //                    [self loadTabbar:groupnames];
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"menu_update" object:[NSDictionary dictionaryWithObjectsAndKeys:groupnames,@"groups",linkedpages,@"linkedpages",nil]];
+                    
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"reload" object:[NSDictionary dictionaryWithObjectsAndKeys:[groupnames objectAtIndex:0],@"group",[linkedpages objectAtIndex:0],@"page",nil]];
+                    
+                }else{
+                    
+                }
+                
+            }];
+            
+        } else {
+            // Something went wrong, we should have received an array
+        }
+        
+    }];
 
-    [self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:reuseIdentifier];
+
     
-    // Do any additional setup after loading the view.
+    self.tableView.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bg.jpg"]];
+    
+    self.tableView.backgroundColor = [UIColor clearColor];
+    
+    status_label = [[UILabel alloc] initWithFrame:CGRectMake(0, (self.view.frame.size.height-100)/2, self.view.frame.size.width, 100)];
+    status_label.textColor = [UIColor lightGrayColor];
+    status_label.textAlignment = NSTextAlignmentCenter;
+    status_label.font = [UIFont fontWithName:AVENIR_MEDIUM size:16];
+    status_label.backgroundColor = [UIColor clearColor];
+    
+    [self.tableView.backgroundView addSubview:status_label];
+    
+    self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
 }
 
-- (void)startTimer
+-(void)handleupdate:(NSNotification *)notification
 {
-    if (!self.timer) {
-        self.timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, dispatch_get_main_queue());
+    NSDictionary *dict = notification.object;
+    NSString *temp1 = [dict objectForKey:@"channel"];
+    
+    NSString *temp2 = [temp1 stringByReplacingOccurrencesOfString:@"/enos/out/" withString:@""];
+    NSString *act_channel;
+    
+    if ([temp2 containsString:@"_state"]) {
+        
+        act_channel = [temp2 stringByReplacingOccurrencesOfString:@"_state/state" withString:@""];
+        
+    }else if ([temp2 containsString:@"_energy"])
+    {
+        act_channel = [temp2 stringByReplacingOccurrencesOfString:@"_energy/state" withString:@""];
+        
+    }else if ([temp2 containsString:@"_dimmer"])
+    {
+        act_channel = [temp2 stringByReplacingOccurrencesOfString:@"_brightness/state" withString:@""];
+    }else if ([temp2 containsString:@"_temperature"])
+    {
+        act_channel = [temp2 stringByReplacingOccurrencesOfString:@"_temperature/state" withString:@""];
     }
-    if (self.timer) {
-        dispatch_source_set_timer(self.timer, dispatch_walltime(NULL, 0), 1ull*NSEC_PER_SEC, 10ull*NSEC_PER_SEC);
-        dispatch_source_set_event_handler(_timer, ^(void) {
-            [self loadDefaultdata];
+    
+    if ([channels objectForKey:act_channel] != NULL) {
+        
+        
+        GroupItems *group = [items_list objectAtIndex:[[channels objectForKey:act_channel] integerValue]];
+        
+        
+        group.state = [dict objectForKey:@"value"];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:[[channels objectForKey:act_channel] integerValue] inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
         });
-        dispatch_resume(_timer);
+     
+        
     }
 }
 
--(void)loadDefaultdata
+-(void)openHABTracked:(NSString *)openHABUrl
 {
-    [[eNosAPI sharedAPI] getGroupItems:self.pageurl block:^(id responseObject, NSError *error) {
+    
+}
+
+-(void)loadDefaultdata:(NSNotification *)sender
+{
+    
+    channels = [NSMutableDictionary new];
+    
+    NSDictionary *dict = sender.object;
+    
+     status_label.text = @"Loading...";
+    
+    self.title = [dict objectForKey:@"group"];
+    
+    [[eNosAPI sharedAPI] getGroupItems:[dict objectForKey:@"page"] block:^(id responseObject, NSError *error) {
         
         if (!error) {
             
@@ -93,6 +252,7 @@ static NSString * const reuseIdentifier = @"Cell";
                     [groupitem setState:[memberdict objectForKey:@"state"]];
                     [groupitem setLabelText:[memeber objectForKey:@"label"]];
                     [groupitem setLink:[memeber objectForKey:@"link"]];
+                    [groupitem setChannel:[memeber objectForKey:@"name"]];
                     
                     if ([memberdict objectForKey:@"stateDescription"] != (id)[NSNull null]) {
                         
@@ -106,7 +266,7 @@ static NSString * const reuseIdentifier = @"Cell";
             
 //            NSLog(@"%d",items_list.count);
          //
-            [self.collectionView reloadData];
+            [self.tableView reloadData];
            // [NSTimer timerWithTimeInterval:6.0 target:self selector:@selector(loadDefaultdata) userInfo:nil repeats:YES];
             //[NSTimer scheduledTimerWithTimeInterval:2.0 target:self selector:@selector(loadDefaultdata) userInfo:nil repeats:YES];
         
@@ -135,32 +295,53 @@ static NSString * const reuseIdentifier = @"Cell";
 }
 */
 
-#pragma mark <UICollectionViewDataSource>
+#pragma mark <UITableViewDeleagteMethods>
 
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    GroupItems *widget = [items_list objectAtIndex:indexPath.row];
+    
+    if ([widget.type isEqualToString:@"DimmerItem"]) {
+        return 108;
+    }else
+    {
+        return 85;
+    }
+    
+    return 0;
+    
+}
+
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
     return 1;
 }
 
-
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return items_list.count;
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    
+    if (items_list.count) {
+        
+       status_label.text = @"";
+        return items_list.count;
+    }else
+    {
+      status_label.text = @"No Items";
+        return 0;
+    }
+    
+    return 0;
 }
 
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     
     GroupItems *widget = [items_list objectAtIndex:indexPath.row];
     
     NSString *cellIdentifier = @"GenericWidgetCell";
     
     if ([widget.type isEqualToString:@"SwitchItem"]) {
-//        if ([widget.mappings count] > 0) {
-//            cellIdentifier = @"SegmentedWidgetCell";
-//        } else if ([widget.item.type isEqualToString:@"RollershutterItem"]) {
-//            cellIdentifier = @"RollershutterWidgetCell";
-//        } else {
-            cellIdentifier = @"SwitchWidgetCell";
-//        }
+        cellIdentifier = @"SwitchWidgetCell";
     } else if ([widget.type isEqualToString:@"Setpoint"]) {
         cellIdentifier = @"SetpointWidgetCell";
     } else if ([widget.type isEqualToString:@"DimmerItem"]) {
@@ -179,41 +360,50 @@ static NSString * const reuseIdentifier = @"Cell";
         cellIdentifier = @"WebWidgetCell";
     }
     
-    GenericUITableViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
-//    // No icon is needed for image, video, frame and web widgets
-//    if (widget.icon != nil && !([cellIdentifier isEqualToString:@"ChartWidgetCell"] || [cellIdentifier isEqualToString:@"ImageWidgetCell"] || [cellIdentifier isEqualToString:@"VideoWidgetCell"] || [cellIdentifier isEqualToString:@"FrameWidgetCell"] || [cellIdentifier isEqualToString:@"WebWidgetCell"])) {
-//        NSString *iconUrlString = [NSString stringWithFormat:@"%@/images/%@.png", self.openHABRootUrl, widget.icon];
-//        [cell.imageView sd_setImageWithURL:[NSURL URLWithString:iconUrlString] placeholderImage:[UIImage imageNamed:@"blankicon.png"] options:0];
-//    }
-//    if ([cellIdentifier isEqualToString:@"ColorPickerWidgetCell"]) {
-//        ((ColorPickerUITableViewCell*)cell).delegate = self;
-//    }
-//    if ([cellIdentifier isEqualToString:@"ChartWidgetCell"]) {
-//        NSLog(@"Setting cell base url to %@", self.openHABRootUrl);
-//        ((ChartUITableViewCell*)cell).baseUrl = self.openHABRootUrl;
-//    }
-//    if ([cellIdentifier isEqualToString:@"ChartWidgetCell"] || [cellIdentifier isEqualToString:@"ImageWidgetCell"]) {
-//        [(ImageUITableViewCell *)cell setDelegate:self];
-//    }
+    GenericUITableViewCell *cell = (GenericUITableViewCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
+    
+    cell.callback = self;
+    
+    if (!cell) {
+        cell = [[GenericUITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+    }
+    
+    channels[widget.channel] = [NSNumber numberWithInteger:indexPath.row];
+    
+    
+    cell.backgroundColor = [UIColor clearColor];
+    
+    cell.textLabel.textColor = cell.detailTextLabel.textColor = cell.statevalue.textColor = [UIColor whiteColor];
+    
     [cell loadWidget:widget];
     [cell displayWidget];
-    // Check if this is not the last row in the widgets list
-//    if (indexPath.row < [currentPage.widgets count] - 1) {
-//        OpenHABWidget *nextWidget = [currentPage.widgets objectAtIndex:indexPath.row + 1];
-//        if ([nextWidget.type isEqual:@"Frame"] || [nextWidget.type isEqual:@"Image"] || [nextWidget.type isEqual:@"Video"] || [nextWidget.type isEqual:@"Webview"] || [nextWidget.type isEqual:@"Chart"]) {
-//            cell.separatorInset = UIEdgeInsetsZero;
-//        } else if (![widget.type isEqualToString:@"Frame"]) {
-//            cell.separatorInset = UIEdgeInsetsMake(0, 60, 0, 0);
-//        }
-//    }
-
-    
-    cell.backgroundColor = [UIColor whiteColor];
-    cell.layer.cornerRadius = 4.0f;
-//    cell.layer.borderColor = [UIColor grayColor].CGColor;
-//    cell.layer.borderWidth = 1.0f;
     
     return cell;
+
+}
+
+-(void)genericswitchchanged:(UISwitch *)sender
+{
+    GenericUITableViewCell *cell = (GenericUITableViewCell *)sender.superview.superview;
+    
+    NSIndexPath *indexpath = [self.tableView indexPathForCell:cell];
+    
+    GroupItems *groupitem = [items_list objectAtIndex:indexpath.row];
+
+   
+    NSString *string;
+    if (sender.isOn) {
+        string = @"ON";
+    }else
+    {
+        string = @"OFF";
+    }
+
+    
+    [self.client publishString:string toTopic:[NSString stringWithFormat:@"/enos/in/%@_state/state",groupitem.channel] withQos:AtMostOnce retain:NO completionHandler:^(int mid) {
+        NSLog(@"%d",mid);
+        NSLog(@"Delivered");
+    }];
 }
 
 

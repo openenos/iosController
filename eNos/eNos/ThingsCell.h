@@ -7,7 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MGSwipeTableCell.h"
+@interface ThingsCell : MGSwipeTableCell
 
-@interface ThingsCell : UITableViewCell
-
+@property (weak, nonatomic) IBOutlet UILabel *logo_label;
+@property (weak, nonatomic) IBOutlet UILabel *name;
+@property (weak, nonatomic) IBOutlet UILabel *status;
+@property (weak, nonatomic) IBOutlet UILabel *type;
 @end

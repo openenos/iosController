@@ -30,6 +30,17 @@
     }
 }
 
+-(void)setChannel:(NSString *)channel
+{
+    if (channel != (id)[NSNull null] && ![channel isEqualToString:@"NULL"]) {
+        
+        _channel = channel;
+    }else
+    {
+        _channel = @"";
+    }
+}
+
 - (UIColor*) stateAsUIColor
 {
     if ([self.state isEqualToString:@"Uninitialized"]) {

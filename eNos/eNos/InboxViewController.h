@@ -9,8 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface InboxViewController : UITableViewController<UITableViewDataSource,UITableViewDelegate>
-//to store inbox information
-@property NSMutableArray *inboxInfo;
 //tableview for showing groups.
 @property (strong,nonatomic) UITableView *tableview;
+@property  NSMutableArray *groupsList;
 @end
