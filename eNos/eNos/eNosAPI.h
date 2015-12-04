@@ -29,4 +29,5 @@
 -(void)ignoringThingsfromInbox:(NSString *)thingId block:(void(^)(id responseObject,NSError *error))block;
 //geting all the things
 -(void)getAllThings:(NSString *)url block:(void(^)(id responseObject,NSError *error))block;
+-(void)getBindings:(NSString *)url block:(void(^)(id responseObject, NSError *error))block;
 @end

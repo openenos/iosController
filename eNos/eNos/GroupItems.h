@@ -21,6 +21,7 @@
 @property NSString *labelValue;
 @property NSString *pattern;
 @property NSString *link;
+@property NSArray *sub_items;
 @property(nonatomic, strong) NSString *channel;
 - (float) stateAsFloat;
 - (int) stateAsInt;

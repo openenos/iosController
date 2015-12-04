@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '71810F52A386046AC92B1A1F'
+               BlueprintIdentifier = '19ADF9C33371D626FACFCE80'
                BlueprintName = 'FastSocket'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'libFastSocket.a'>

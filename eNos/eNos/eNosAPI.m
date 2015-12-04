@@ -130,10 +130,25 @@
 -(void)getAllThings:(NSString *)url block:(void (^)(id, NSError *))block
 {
 
-[self GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-    block(responseObject,nil);
-} failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-    block([NSDictionary new],error);
-}];
+    [self GET:@"/rest/things" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        block(responseObject,nil);
+        
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            
+            block([NSDictionary new],error);
+    }];
+}
+
+-(void)getBindings:(NSString *)url block:(void (^)(id, NSError *))block
+{
+    [self GET:@"/rest/bindings" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        block(responseObject,nil);
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        block([NSDictionary new],error);
+    }];
 }
 @end

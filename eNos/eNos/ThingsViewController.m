@@ -42,7 +42,9 @@
     status_label.textAlignment = NSTextAlignmentCenter;
     status_label.font = [UIFont fontWithName:AVENIR_MEDIUM size:16];
     status_label.backgroundColor = [UIColor clearColor];
-        status_label.text = @"Loading...";
+    status_label.text = @"Loading...";
+    
+    [self.tableView reloadData];
     
     [self.tableView.backgroundView addSubview:status_label];
     
@@ -51,7 +53,7 @@
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(AddThing:)];
     
     
-    [[eNosAPI sharedAPI] getAllThings:@"http://192.168.199.40:8080/rest/things" block:^(id responseObject, NSError *error) {
+    [[eNosAPI sharedAPI] getAllThings:@"" block:^(id responseObject, NSError *error) {
         
         if (error) {
             
@@ -90,7 +92,7 @@
 
 -(void)AddThing:(id)sender
 {
-    
+    [self performSegueWithIdentifier:@"bindings" sender:nil];
 }
 
 - (void)didReceiveMemoryWarning {

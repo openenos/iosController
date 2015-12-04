@@ -11,7 +11,7 @@
 #import <TSMessage.h>
 #import "SlideNavigationController.h"
 #import "GenericUITableViewCell.h"
-@interface HomeViewController : UITableViewController<GroupItemsDelegate,SlideNavigationControllerDelegate,GenericCellDelegate>
+@interface HomeViewController : UITableViewController<GroupItemsDelegate,SlideNavigationControllerDelegate,GenericCellDelegate,UIAlertViewDelegate>
 @property NSString *pageurl;
 @property NSString *groupname;
 - (void)openHABTracked:(NSString *)openHABUrl;

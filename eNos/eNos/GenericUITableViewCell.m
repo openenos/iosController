@@ -38,6 +38,8 @@
 - (void)displayWidget
 {
     self.textLabel.text = [self.widget labelText];
+    
+
     if ([self.widget labelValue] != nil)
         self.detailTextLabel.text = [self.widget labelValue];
     else
@@ -47,6 +49,14 @@
     
     self.statevalue.text = [NSString stringWithFormat:@"%@ %@",self.widget.state,[array objectAtIndex:1]];
     
+    if ([self.detailTextLabel.text isEqualToString:@"Set-Point"]) {
+        
+        UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handlesetpointTap:)];
+        gesture.numberOfTapsRequired = 1;
+        self.statevalue.userInteractionEnabled = YES;
+        [self.statevalue addGestureRecognizer:gesture];
+    }
+    
     if ([self.widget.labelText isEqualToString:@"Building Energy"]) {
         
         self.image_icon.image = [[UIImage imageNamed:@"energy.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
@@ -54,14 +64,42 @@
         
     }else if ([self.widget.labelText isEqualToString:@"Temperature"])
     {
-        self.image_icon.image = [[UIImage imageNamed:@"temparature.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        self.image_icon.image = [[UIImage imageNamed:@"current_temparature.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        self.image_icon.tintColor = [UIColor greenColor];
+    }else if ([self.widget.labelText isEqualToString:@"Cool"])
+    {
+        self.image_icon.image = [[UIImage imageNamed:@"cool.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+            self.image_icon.tintColor = [UIColor greenColor];
+        
+    }else if ([self.widget.labelText isEqualToString:@"Fan"])
+    {
+        self.image_icon.image = [[UIImage imageNamed:@"fan.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+       self.image_icon.tintColor = [UIColor greenColor];
+        
+    }else if ([self.widget.labelText isEqualToString:@"Heat"])
+    {
+        self.image_icon.image = [[UIImage imageNamed:@"heat.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        self.image_icon.tintColor = [UIColor greenColor];
+    }else if ([self.widget.labelText isEqualToString:@"Set-Point"])
+    {
+        self.image_icon.image = [[UIImage imageNamed:@"setpoint.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        self.image_icon.tintColor = [UIColor greenColor];
+    }else if ([self.widget.labelText isEqualToString:@"Current Temp"])
+    {
+        self.image_icon.image = [[UIImage imageNamed:@"current_temparature.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
         self.image_icon.tintColor = [UIColor greenColor];
     }
+
     
     self.image_icon.clipsToBounds = YES;
     
     [self.detailTextLabel sizeToFit];
 
+}
+
+-(void)handlesetpointTap:(UITapGestureRecognizer *)gesture
+{
+    [self.callback setpointLabelTapped:(UILabel *)gesture.view andvalue:self.widget.state];
 }
 
 // This is to fix possible different sizes of user icons - we fix size and position of UITableViewCell icons

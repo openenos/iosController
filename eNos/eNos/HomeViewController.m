@@ -31,11 +31,12 @@
     AFHTTPRequestOperation *commandOperation;
     UILabel *status_label;
     NSMutableDictionary *channels;
-    
+    NSDictionary *menu_dict;
     NSMutableArray *sitemaps;
     NSMutableArray *groupnames;
     NSMutableArray *linkedpages;
     NSMutableArray *inboxData;
+    NSIndexPath *setpointIndexpath;
 }
 @property (strong, nonatomic) dispatch_source_t timer;
 @property MQTTClient *client;
@@ -58,6 +59,7 @@ static NSString * const reuseIdentifier = @"Cell";
     self.navigationController.navigationBar.shadowImage = [UIImage new];
     self.navigationController.navigationBar.translucent = YES;
     
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleupdate:) name:@"update" object:nil];
 }
 
@@ -67,12 +69,21 @@ static NSString * const reuseIdentifier = @"Cell";
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"update" object:nil];
 }
 
+-(void)handleinbox
+{
+    [self performSegueWithIdentifier:@"inbox" sender:nil];
+}
+
 
 - (void)viewDidLoad {
     
     [super viewDidLoad];
     
     NSString *clientID = [UIDevice currentDevice].identifierForVendor.UUIDString;
+    
+    UIBarButtonItem *leftbarbutton = [[UIBarButtonItem alloc] initWithTitle:@"Inbox" style:UIBarButtonItemStyleDone target:self action:@selector(handleinbox)];
+    
+    self.navigationItem.rightBarButtonItem = leftbarbutton;
     
      [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadDefaultdata:) name:@"reload" object:nil];
     
@@ -194,7 +205,60 @@ static NSString * const reuseIdentifier = @"Cell";
     }else if ([temp2 containsString:@"_temperature"])
     {
         act_channel = [temp2 stringByReplacingOccurrencesOfString:@"_temperature/state" withString:@""];
+    }else if ([temp2 containsString:@"_heat"])
+    {
+        if ([groupnames containsObject:self.title]) {
+            
+            act_channel = [temp2 stringByReplacingOccurrencesOfString:@"_heat/state" withString:@""];
+        }else
+        {
+            act_channel = [temp2 stringByReplacingOccurrencesOfString:@"/state" withString:@""];
+        }
+        
+        
+    }else if ( [temp2 containsString:@"_cool"])
+    {
+        if ([groupnames containsObject:self.title]) {
+            
+            act_channel = [temp2 stringByReplacingOccurrencesOfString:@"_cool/state" withString:@""];
+        }else
+        {
+            act_channel = [temp2 stringByReplacingOccurrencesOfString:@"/state" withString:@""];
+        }
+        
+    }else if ([temp2 containsString:@"_fan"])
+    {
+        if ([groupnames containsObject:self.title]) {
+            
+            act_channel = [temp2 stringByReplacingOccurrencesOfString:@"_fan/state" withString:@""];
+        }else
+        {
+            act_channel = [temp2 stringByReplacingOccurrencesOfString:@"/state" withString:@""];
+        }
+        
+    }else if ([temp2 containsString:@"_setpoint"])
+    {
+        if ([groupnames containsObject:self.title]) {
+            
+            act_channel = [temp2 stringByReplacingOccurrencesOfString:@"_setpoint/state" withString:@""];
+        }else
+        {
+            act_channel = [temp2 stringByReplacingOccurrencesOfString:@"/state" withString:@""];
+        }
+        
+    }else if ([temp2 containsString:@"_currenttemp"])
+    {
+        if ([groupnames containsObject:self.title]) {
+            
+            act_channel = [temp2 stringByReplacingOccurrencesOfString:@"_currenttemp/state" withString:@""];
+        }else
+        {
+            act_channel = [temp2 stringByReplacingOccurrencesOfString:@"/state" withString:@""];
+        }
     }
+    
+    
+
     
     if ([channels objectForKey:act_channel] != NULL) {
         
@@ -221,11 +285,19 @@ static NSString * const reuseIdentifier = @"Cell";
 -(void)loadDefaultdata:(NSNotification *)sender
 {
     
+    if(self.navigationItem.leftBarButtonItems.count > 1)
+    {
+        self.navigationItem.leftBarButtonItems = @[[self.navigationItem.leftBarButtonItems objectAtIndex:1]];
+    }
+   
+    
     channels = [NSMutableDictionary new];
     
-    NSDictionary *dict = sender.object;
+    NSDictionary *dict = menu_dict = sender.object;
     
      status_label.text = @"Loading...";
+    
+    [self.tableView reloadData];
     
     self.title = [dict objectForKey:@"group"];
     
@@ -247,6 +319,30 @@ static NSString * const reuseIdentifier = @"Cell";
                     
                     NSDictionary *memberdict = [memebers objectAtIndex:0];
                     
+                    NSArray *sub_items = [memeber objectForKey:@"members"];
+                    
+                    NSMutableArray *sub_items_array = [NSMutableArray new];
+                    for (NSDictionary *dict in sub_items) {
+                        
+                        GroupItems *sub_group_items = [[GroupItems alloc] init];
+                        
+                        [sub_group_items setType:[dict objectForKey:@"type"]];
+                        [sub_group_items setLabelValue:[dict objectForKey:@"label"]];
+                        [sub_group_items setState:[dict objectForKey:@"state"]];
+                        [sub_group_items setLabelText:[dict objectForKey:@"label"]];
+                        [sub_group_items setLink:[dict objectForKey:@"link"]];
+                        [sub_group_items setChannel:[dict objectForKey:@"name"]];
+                        
+                        if ([dict objectForKey:@"stateDescription"] != (id)[NSNull null]) {
+                            
+                            [sub_group_items setPattern:[[dict objectForKey:@"stateDescription"] objectForKey:@"pattern"]];
+                        }
+                        
+                        [sub_items_array addObject:sub_group_items];
+                        
+                    }
+                    
+                    [groupitem setSub_items:sub_items_array];
                     [groupitem setType:[memberdict objectForKey:@"type"]];
                     [groupitem setLabelValue:[memberdict objectForKey:@"label"]];
                     [groupitem setState:[memberdict objectForKey:@"state"]];
@@ -368,6 +464,19 @@ static NSString * const reuseIdentifier = @"Cell";
         cell = [[GenericUITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
     
+    UISwitch *widgetswitch = (UISwitch *)[cell viewWithTag:200];
+    
+    
+    if (widget.sub_items.count > 1) {
+        
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        widgetswitch.hidden = YES;
+    }else
+    {
+        cell.accessoryType = UITableViewCellAccessoryNone;
+        widgetswitch.hidden = NO;
+    }
+    
     channels[widget.channel] = [NSNumber numberWithInteger:indexPath.row];
     
     
@@ -380,6 +489,47 @@ static NSString * const reuseIdentifier = @"Cell";
     
     return cell;
 
+}
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 1) {
+        
+        GroupItems *groupitem = [items_list objectAtIndex:setpointIndexpath.row];
+        
+        NSString *topic;
+        
+        if ([groupnames containsObject:self.title]) {
+            
+            topic = [NSString stringWithFormat:@"/enos/in/%@_state/state",groupitem.channel];
+        }else
+        {
+            topic = [NSString stringWithFormat:@"/enos/in/%@/state",groupitem.channel];
+        }
+
+        
+        [self.client publishString:[alertView textFieldAtIndex:0].text toTopic:topic withQos:AtMostOnce retain:NO completionHandler:^(int mid) {
+            //        NSLog(@"%d",mid);
+            //        NSLog(@"Delivered");
+        }];
+        
+        
+    }
+}
+
+-(void)setpointLabelTapped:(UILabel *)sender andvalue:(NSString *)value
+{
+    GenericUITableViewCell *cell = (GenericUITableViewCell *)sender.superview.superview;
+    setpointIndexpath = [self.tableView indexPathForCell:cell];
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:self.title message:@"Set-point" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Save",nil];
+    
+    alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+    
+    [alert textFieldAtIndex:0].text = value;
+    [alert textFieldAtIndex:0].keyboardType = UIKeyboardTypeNumberPad;
+    
+    [alert show];
 }
 
 -(void)genericswitchchanged:(UISwitch *)sender
@@ -399,10 +549,19 @@ static NSString * const reuseIdentifier = @"Cell";
         string = @"OFF";
     }
 
+    NSString *topic;
     
-    [self.client publishString:string toTopic:[NSString stringWithFormat:@"/enos/in/%@_state/state",groupitem.channel] withQos:AtMostOnce retain:NO completionHandler:^(int mid) {
-        NSLog(@"%d",mid);
-        NSLog(@"Delivered");
+    if ([groupnames containsObject:self.title]) {
+        
+        topic = [NSString stringWithFormat:@"/enos/in/%@_state/state",groupitem.channel];
+    }else
+    {
+        topic = [NSString stringWithFormat:@"/enos/in/%@/state",groupitem.channel];
+    }
+    
+    [self.client publishString:string toTopic:topic withQos:AtMostOnce retain:NO completionHandler:^(int mid) {
+//        NSLog(@"%d",mid);
+//        NSLog(@"Delivered");
     }];
 }
 
@@ -470,6 +629,48 @@ static NSString * const reuseIdentifier = @"Cell";
     }
     
     
+}
+
+-(void)handleback:(id)sender
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"reload" object:menu_dict];
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    GroupItems *groupitem = [items_list objectAtIndex:indexPath.row];
+    
+    if (groupitem.sub_items.count > 1) {
+        
+//        SubItemsViewController *svc = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"sub_items"];
+//        
+//        svc.items_list = groupitem.sub_items;
+//        
+//        svc.title = groupitem.labelText;
+//        
+//        [self.navigationController pushViewController:svc animated:YES];
+        
+        
+//        NSLog(@"%@",self.navigationItem.leftBarButtonItem);
+        
+        UIBarButtonItem *menu_btn = self.navigationItem.leftBarButtonItem;
+        
+        UIBarButtonItem *barbuttonitem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"back_arrow"] style:UIBarButtonItemStylePlain target:self action:@selector(handleback:)];
+        
+        self.navigationItem.leftBarButtonItems = @[barbuttonitem,menu_btn];
+        
+        channels = [NSMutableDictionary new];
+        
+        items_list = [groupitem.sub_items mutableCopy];
+        
+        self.title = groupitem.labelText;
+        
+        [self.tableView reloadData];
+        
+    }else
+    {
+        return;
+    }
 }
 
 

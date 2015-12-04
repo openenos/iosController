@@ -11,6 +11,7 @@
 #import "GroupItems.h"
 @protocol GenericCellDelegate<NSObject>
 -(void)genericswitchchanged:(UISwitch *)sender;
+-(void)setpointLabelTapped:(UILabel *)sender andvalue:(NSString *)value;
 @end
 @interface GenericUITableViewCell : UITableViewCell
 {

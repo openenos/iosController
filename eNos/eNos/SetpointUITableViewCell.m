@@ -20,6 +20,7 @@
     self = [super initWithCoder:coder];
     if (self) {
         self.widgetSegmentedControl = (UISegmentedControl *)[self viewWithTag:300];
+        self.textLabel = (UILabel *)[self viewWithTag:401];
     }
     return self;
 }

@@ -62,6 +62,7 @@
 
 -(void)setimages
 {
+    
     if ([self.widget.labelText isEqualToString:@"Lights"] || [self.widget.labelText isEqualToString:@"Light Dimmer"]) {
         
         if (self.widgetSwitch.isOn) {
@@ -121,6 +122,36 @@
         {
             self.image_icon.tintColor = [UIColor grayColor];
         }
+    }else if ([self.widget.labelText isEqualToString:@"Cool"])
+    {
+        self.image_icon.image = [[UIImage imageNamed:@"cool.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        if (self.widgetSwitch.isOn) {
+            self.image_icon.tintColor = [UIColor greenColor];
+        }else
+        {
+            self.image_icon.tintColor = [UIColor grayColor];
+        }
+
+    }else if ([self.widget.labelText isEqualToString:@"Fan"])
+    {
+        self.image_icon.image = [[UIImage imageNamed:@"fan.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        if (self.widgetSwitch.isOn) {
+            self.image_icon.tintColor = [UIColor greenColor];
+        }else
+        {
+            self.image_icon.tintColor = [UIColor grayColor];
+        }
+
+    }else if ([self.widget.labelText isEqualToString:@"Heat"])
+    {
+        self.image_icon.image = [[UIImage imageNamed:@"heat.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        if (self.widgetSwitch.isOn) {
+            self.image_icon.tintColor = [UIColor greenColor];
+        }else
+        {
+            self.image_icon.tintColor = [UIColor grayColor];
+        }
+
     }
 
 }
